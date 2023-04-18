@@ -13,7 +13,6 @@ ACppChessController::ACppChessController()
 	APlayerController::bEnableClickEvents = true;
 	APlayerController::bEnableTouchEvents = true;
 }
-
 void ACppChessController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -21,7 +20,6 @@ void ACppChessController::BeginPlay()
 	this->SetGameModeReference();
 	this->SetGameMenuReference();
 }
-
 void ACppChessController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
@@ -29,15 +27,13 @@ void ACppChessController::SetupInputComponent()
 
 	InputComponent->BindAction("EscPress", IE_Pressed, this, &ACppChessController::E_ShowPauseMenu);
 }
-
 void ACppChessController::E_ShowPauseMenu()
 {
 	if (!this->_chessGameMode)
 		this->SetGameModeReference();
 	if (this->_chessGameMode)
-		this->ShowGameMenu(this->_chessGameMode->GetGameMenuTypes(), true);
+		this->ShowGameMenu(this->_chessGameMode->GetGameMenuTypes(), true, true);
 }
-
 void ACppChessController::E_SwitchCamera()
 {
 	if (!this->_chessGameMode)
@@ -48,7 +44,6 @@ void ACppChessController::E_SwitchCamera()
 
 	}
 }
-
 void ACppChessController::SetGameModeReference()
 {
 	if (this->_chessGameMode)
@@ -58,7 +53,6 @@ void ACppChessController::SetGameModeReference()
 	if (gameModeBase)
 		this->_chessGameMode = Cast<ACppChessGameMode>(gameModeBase);
 }
-
 void ACppChessController::SetGameMenuReference()
 {
 	if (this->_widgetMenu)
@@ -70,16 +64,16 @@ void ACppChessController::SetGameMenuReference()
 	if (this->_widgetMenu)
 	{
 		this->_widgetMenu->SetGameModeBase(this->_chessGameMode);
-		this->ShowGameMenu(this->_chessGameMode->GetGameMenuTypes(), this->_chessGameMode->GetIsNeedShowMenu());
+		this->ShowGameMenu(this->_chessGameMode->GetGameMenuTypes(), this->_chessGameMode->GetIsNeedShowMenu(), this->_chessGameMode->GetIsPlayGame());
 		this->_chessGameMode->PlayGame(false);
 	}
+	this->_chessGameMode->PlayGame();
 }
-
-void ACppChessController::ShowGameMenu(EGameMenuTypes menuType, bool isNeedShowMenu)
+void ACppChessController::ShowGameMenu(EGameMenuTypes menuType, bool isNeedShowMenu, bool isPlayGame)
 {
 	if (!this->_widgetMenu)
 		this->SetGameMenuReference();
 
 	if (this->_widgetMenu)
-		this->_widgetMenu->SetShowMenuStyle(menuType, isNeedShowMenu);
+		this->_widgetMenu->SetShowMenuStyle(menuType, isNeedShowMenu, isPlayGame);
 }

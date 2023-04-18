@@ -43,5 +43,5 @@ private:
 private:
 	void SetGameModeReference();
 	void SetGameMenuReference();
-	void ShowGameMenu(EGameMenuTypes menuType, bool isNeedShowMenu);
+	void ShowGameMenu(EGameMenuTypes menuType, bool isNeedShowMenu, bool isPlayGame);
 };

@@ -11,16 +11,13 @@
 #include "CppGameInstance.h"
 #include "EnumClass.h"
 
-
 void ACppChessGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 	this->SetChessControllerReference();
 	this->SetChessBoardReference();
 	this->SetChessPlayerReference();
-	this->SetChessPiecesReference();
 }
-
 ACppChessGameMode::ACppChessGameMode()
 {
 	//this->SetGamePlayInstanceReference();
@@ -64,17 +61,43 @@ void ACppChessGameMode::SetChessControllerReference()
 }
 void ACppChessGameMode::PlayGame(bool isRestart)
 {
-//TODO:
+	UGameInstance* instance = AActor::GetGameInstance();
+	if (instance)
+	{
+		UCppGameInstance* gameInstance = Cast<UCppGameInstance>(instance);
+		if (gameInstance && gameInstance->GetIsPlayingGame())
+		{
+			if (!this->_chessBoard)
+				this->SetChessBoardReference();
+			if (this->_chessBoard)
+				this->_chessBoard->PlayGame();
+			if (!this->_chessPlayer)
+				this->SetChessPlayerReference();
+			if (this->_chessPlayer)
+				this->_chessPlayer->SetPlayerCamera(EPlayerColors::White);
+		}
+	}
 }
-void ACppChessGameMode::SetGameMenuTypes(EGameMenuTypes menuType, bool isNeedShowMenu)
+void ACppChessGameMode::SetGameMenuTypes(EGameMenuTypes menuType, bool isNeedShowMenu, bool isPlayGame)
 {
 	UGameInstance* instance = AActor::GetGameInstance();
 	if (instance)
 	{
 		UCppGameInstance* gameInstance = Cast<UCppGameInstance>(instance);
 		if (gameInstance)
+		{
 			gameInstance->SetActiveMenuType(menuType, isNeedShowMenu);
+			gameInstance->SetIsPlayingGame(isPlayGame);
+
+		}
 	}
+}
+void ACppChessGameMode::SetUnHighlightAllSquares()
+{
+	if (!this->_chessBoard)
+		this->SetChessBoardReference();
+	if (this->_chessBoard)
+		this->_chessBoard->SetUnHighlightAllSquares();
 }
 EGameMenuTypes ACppChessGameMode::GetGameMenuTypes()
 {
@@ -98,6 +121,68 @@ bool ACppChessGameMode::GetIsNeedShowMenu()
 	}
 
 	return false;
+}
+bool ACppChessGameMode::GetIsPlayGame()
+{
+	UGameInstance* instance = AActor::GetGameInstance();
+	if (instance)
+	{
+		UCppGameInstance* gameInstance = Cast<UCppGameInstance>(instance);
+		if (gameInstance)
+			return gameInstance->GetIsPlayingGame();
+	}
+
+	return false;
+}
+void ACppChessGameMode::SetSelectedChessPiece(ACppChessPiece* chessPiece)
+{
+	if (!this->_chessBoard)
+		this->SetChessBoardReference();
+	if (this->_chessBoard)
+		this->_chessBoard->SetSelectedChessPiece(chessPiece);
+}
+void ACppChessGameMode::SetSelectedChessSquare(ACppChessSquare* chessSquare)
+{
+	if (!this->_chessBoard)
+		this->SetChessBoardReference();
+	if (this->_chessBoard)
+		this->_chessBoard->SetSelectedChessSquare(chessSquare);
+}
+ACppChessPiece* ACppChessGameMode::GetSelectedChessPiece()
+{
+	if (!this->_chessBoard)
+		this->SetChessBoardReference();
+	if (this->_chessBoard)
+		return this->_chessBoard->GetSelectedChessPiece();
+	return nullptr;
+}
+ACppChessSquare* ACppChessGameMode::GetSelectedChessSquare()
+{
+	if (!this->_chessBoard)
+		this->SetChessBoardReference();
+	if (this->_chessBoard)
+		return this->_chessBoard->GetSelectedChessSquare();
+	return nullptr;
+}
+ACppChessSquare* ACppChessGameMode::FindParentSquareByLocation(FVector childLocation)
+{
+	if (!this->_chessBoard)
+		this->SetChessBoardReference();
+	
+	if (this->_chessBoard)
+		return this->_chessBoard->FindParentSquareByLocation(childLocation);
+
+	return nullptr;
+}
+ACppChessPiece* ACppChessGameMode::FindChildPieceByLocation(FVector parentLocation)
+{
+	if (!this->_chessBoard)
+		this->SetChessBoardReference();
+
+	if (this->_chessBoard)
+		return this->_chessBoard->FindChildPieceByLocation(parentLocation);
+
+	return nullptr;
 }
 EPlayerColors ACppChessGameMode::GetActivePlayerColor()
 {
@@ -176,6 +261,47 @@ UMaterialInstance* ACppChessGameMode::GetMaterialWithTypes(EMaterialTypes materi
 	case EMaterialTypes::MarkerSelected:
 	{
 		return this->_materialMarkerSelected;
+		break;
+	}
+	default:
+	{
+		return nullptr;
+		break;
+	}
+	}
+}
+UStaticMesh* ACppChessGameMode::GetMeshWithTypes(EChessPieceTypes chessPiece)
+{
+	switch (chessPiece)
+	{
+	case EChessPieceTypes::King:
+	{
+		return this->_meshKing;
+		break;
+	}
+	case EChessPieceTypes::Queen:
+	{
+		return this->_meshQueen;
+		break;
+	}
+	case EChessPieceTypes::Bishop:
+	{
+		return this->_meshBishop;
+		break;
+	}
+	case EChessPieceTypes::Knight:
+	{
+		return this->_meshKnight;
+		break;
+	}
+	case EChessPieceTypes::Rook:
+	{
+		return this->_meshRook;
+		break;
+	}
+	case EChessPieceTypes::Pawn:
+	{
+		return this->_meshPawn;
 		break;
 	}
 	default:

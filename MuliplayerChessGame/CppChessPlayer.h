@@ -27,25 +27,27 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
-	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Chess Board", meta = (AllowPrivateAccess = "true"))
-	//	UBillboardComponent* _billBoardRoot;
-	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Chess Board", meta = (AllowPrivateAccess = "true"))
-	//	UBillboardComponent* _billBoardBlack;
-	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Chess Board", meta = (AllowPrivateAccess = "true"))
-	//	UBillboardComponent* _billBoardWhite;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Chess Board", meta = (AllowPrivateAccess = "true"))
+		UBillboardComponent* _billBoardRoot;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Chess Board", meta = (AllowPrivateAccess = "true"))
+		UBillboardComponent* _billBoardCamera;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Chess Board", meta = (AllowPrivateAccess = "true"))
+		UBillboardComponent* _billBoardBlack;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Chess Board", meta = (AllowPrivateAccess = "true"))
+		UBillboardComponent* _billBoardWhite;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Chess Board", meta = (AllowPrivateAccess = "true"))
 		UCameraComponent* _rootCamere;
 
-	FVector _blackLocation;
-	FRotator _blackRotation;
-	FVector _whiteLocation;
-	FRotator _whiteRotation;
+	//FVector _blackLocation;
+	//FRotator _blackRotation;
+	//FVector _whiteLocation;
+	//FRotator _whiteRotation;
 	bool _isMovingCamera = false;
 	EPlayerColors _activeColor;
-		FPlayerInformation* _chessPlayerInformations1;
-		FPlayerInformation* _chessPlayerInformations2;
+	FPlayerInformation* _chessPlayerInformations1;
+	FPlayerInformation* _chessPlayerInformations2;
 private:
-	void SetLocationRotation();
+	void SetLocationRotation(float DeltaTime);
 
 
 public:

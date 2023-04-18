@@ -20,6 +20,7 @@ public:
 private:
 	 EGameMenuTypes _currentMenu;
 	 bool _isNeedShowMenu;
+	 bool _isPlayingGame = false;
 
 
 public:
@@ -31,4 +32,6 @@ public:
 	FORCEINLINE EGameMenuTypes GetActiveMenuType() const { return this->_currentMenu; }
 	//FORCEINLINE bool GetIsNeedShowMenu() const { return this->_isNeedShowMenu; }
 	FORCEINLINE bool GetIsNeedShowMenu() const { return this->_isNeedShowMenu; }
+	FORCEINLINE bool GetIsPlayingGame() const { return this->_isPlayingGame; }
+	FORCEINLINE void SetIsPlayingGame(bool isPlayingGame) { this->_isPlayingGame = isPlayingGame; }
 };

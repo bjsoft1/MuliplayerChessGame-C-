@@ -24,7 +24,6 @@ void UCppWidgetMenu::NativeConstruct()
 	if (this->_Button4)
 		this->_Button4->OnClicked.AddDynamic(this, &UCppWidgetMenu::button4Click);
 }
-
 void UCppWidgetMenu::button1Click()
 {
 	FString buttonText = this->_textButton1->Text.ToString();
@@ -64,9 +63,9 @@ void UCppWidgetMenu::QuitGame()
 }
 void UCppWidgetMenu::MainMenu()
 {
-	UE_LOG(LogTemp, Warning, TEXT("H000000-25"));
-	this->SetShowMenuStyle(EGameMenuTypes::StartMenu, true);
-	UGameplayStatics::OpenLevel(GetWorld(), FName("StartMenu"), true);
+	//UE_LOG(LogTemp, Warning, TEXT("H000000-25"));
+	this->SetShowMenuStyle(EGameMenuTypes::StartMenu, true, false);
+	UGameplayStatics::OpenLevel(GetWorld(), FName("GameLevel"), true);
 }
 void UCppWidgetMenu::HelpSupport()
 {
@@ -75,27 +74,27 @@ void UCppWidgetMenu::HelpSupport()
 void UCppWidgetMenu::GiveUpGame()
 {
 	// TODO:
-	this->SetShowMenuStyle(EGameMenuTypes::PauseMenuAfterGiveUp, false);
+	this->SetShowMenuStyle(EGameMenuTypes::PauseMenuAfterGiveUp, false, false);
 }
 void UCppWidgetMenu::PlayGame()
 {
-	this->SetShowMenuStyle(EGameMenuTypes::PauseMenu, false);
+	this->SetShowMenuStyle(EGameMenuTypes::PauseMenu, false, true);
 	UGameplayStatics::OpenLevel(GetWorld(), FName("GameLevel"), false);
 }
 void UCppWidgetMenu::ResumeGame()
 {
-	this->SetShowMenuStyle(EGameMenuTypes::PauseMenu , false);
+	this->SetShowMenuStyle(EGameMenuTypes::PauseMenu , false, true);
 	UGameplayStatics::SetGamePaused(GetWorld(), false);
 }
 void UCppWidgetMenu::PauseGame()
 {
-	this->SetShowMenuStyle(EGameMenuTypes::PauseMenu, true);
+	this->SetShowMenuStyle(EGameMenuTypes::PauseMenu, true, true);
 	UGameplayStatics::SetGamePaused(GetWorld(), true);
 }
 void UCppWidgetMenu::RestartGame()
 {
 	// TODO: Reset All UserInfromation
-	this->SetShowMenuStyle(EGameMenuTypes::PauseMenu, false);
+	this->SetShowMenuStyle(EGameMenuTypes::PauseMenu, false, true);
 	UGameplayStatics::OpenLevel(GetWorld(), FName("GameLevel"), false);
 }
 void UCppWidgetMenu::SetButtonVisibility(bool button1, bool button2, bool button3, bool button4)
@@ -105,10 +104,10 @@ void UCppWidgetMenu::SetButtonVisibility(bool button1, bool button2, bool button
 	this->_Button3->SetVisibility(button3 ? ESlateVisibility::Visible : ESlateVisibility::Collapsed);
 	this->_Button4->SetVisibility(button4 ? ESlateVisibility::Visible : ESlateVisibility::Collapsed);
 }
-void UCppWidgetMenu::SetShowMenuStyle(EGameMenuTypes menuType, bool isNeedShowMenu)
+void UCppWidgetMenu::SetShowMenuStyle(EGameMenuTypes menuType, bool isNeedShowMenu, bool isPlayGame)
 {
 	if (this->_chessGameMode)
-		this->_chessGameMode->SetGameMenuTypes(menuType, isNeedShowMenu);
+		this->_chessGameMode->SetGameMenuTypes(menuType, isNeedShowMenu, isPlayGame);
 	//UE_LOG(LogTemp, Warning, TEXT("H000000-12"));
 	if (this->IsInViewport())
 		this->RemoveFromViewport();

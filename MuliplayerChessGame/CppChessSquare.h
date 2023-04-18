@@ -10,6 +10,7 @@
 class UStaticMeshComponent;
 class UMaterialInstance;
 class ACppChessPiece;
+class ACppChessGameMode;
 enum class EPlayerColors : uint8;
 
 UCLASS()
@@ -30,7 +31,8 @@ private:
 		UStaticMeshComponent* _squareBoard;
 	
 private:
-		ACppChessPiece* _childPiece;
+	ACppChessGameMode* _chessGameMode;
+	ACppChessPiece* _childPiece;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ChessBoard", meta = (AllowPrivateAccess = "true"))
 		EPlayerColors _colorType;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ChessBoard", meta = (AllowPrivateAccess = "true"))
@@ -39,11 +41,16 @@ private:
 		int _yIndex;
 
 private:
+	UFUNCTION()
+	void E_SquareBoardClick(UPrimitiveComponent* TouchedComponent, FKey ButtonPressed);
+
+private:
 	void SetBoardSquareMaterial();
+	void SetGameModeReference();
 
 
 public:
-	void SetHighlightMaterial(UMaterialInstance* materialInstance, bool isVisible);
+	void SetHighlightMaterial(UMaterialInstance* materialInstance, bool isVisible, bool isUnlightAllMaterial);
 
 public:
 	FORCEINLINE ACppChessPiece* GetChildPiece() const { return this->_childPiece; }

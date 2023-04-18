@@ -9,6 +9,7 @@
 // Forward Declare
 enum class EMaterialTypes : uint8;
 enum class EPlayerColors : uint8;
+enum class EChessPieceTypes : uint8;
 class ACppChessGameMode;
 class ACppChessPiece;
 class ACppChessSquare;
@@ -35,7 +36,8 @@ private:
 	ACppChessGameMode* _chessGameMode;
 	TArray<ACppChessPiece*> _chessPieces;
 	TArray<ACppChessSquare*> _chessSquareBoards;
-
+	ACppChessPiece* _selectedChessPiece;
+	ACppChessSquare* _selectedChessSquare;
 
 private:
 	void SetGameModeReference();
@@ -45,9 +47,16 @@ private:
 
 public:
 	UMaterialInstance* GetMaterialWithTypes(EMaterialTypes materialType);
-
+	void PlayGame();
+	void SetUnHighlightAllSquares();
+	ACppChessSquare* FindParentSquareByLocation(FVector childLocation);
+	ACppChessPiece* FindChildPieceByLocation(FVector parentLocation);
 
 public:
 	FORCEINLINE void SetGameModeReference(ACppChessGameMode* gameMode) { this->_chessGameMode = gameMode; }
 	FORCEINLINE int GetSquareBoardIndex(int xIndex, int yIndex) const { return (((xIndex - 1) * 8) + (yIndex - 1)); }
+	FORCEINLINE void SetSelectedChessPiece(ACppChessPiece* chessPiece) { this->_selectedChessPiece = chessPiece; }
+	FORCEINLINE void SetSelectedChessSquare(ACppChessSquare* chessSquare) { this->_selectedChessSquare = chessSquare; }
+	FORCEINLINE ACppChessPiece* GetSelectedChessPiece() const { return this->_selectedChessPiece; }
+	FORCEINLINE ACppChessSquare* GetSelectedChessSquare() const { return this->_selectedChessSquare; }
 };

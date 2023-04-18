@@ -73,7 +73,7 @@ private:
 
 
 public:
-	void SetShowMenuStyle(EGameMenuTypes menuType, bool isNeedShowMenu);
+	void SetShowMenuStyle(EGameMenuTypes menuType, bool isNeedShowMenu, bool isPlayGame);
 
 public:
 	FORCEINLINE void SetGameModeBase(ACppChessGameMode* gameMode) { this->_chessGameMode = gameMode; }

@@ -9,12 +9,14 @@
 // Forward Declare
 class ACppChessPlayer;
 class ACppChessBoard;
+class ACppChessSquare;
 class ACppChessPiece;
 class ACppChessController;
 class UCppGameInstance;
 class UStaticMesh;
 class UMaterialInstance;
 enum class EPlayerColors : uint8;
+enum class EChessPieceTypes : uint8;
 enum class EGameMenuTypes : uint8;
 enum class EMaterialTypes : uint8;
 struct FPlayerInformation;
@@ -70,18 +72,28 @@ private:
 	void SetChessPlayerReference();
 	void SetChessBoardReference();
 	void SetChessControllerReference();
-	void SetChessPiecesReference();
 
 public:
 	void PlayGame(bool isRestart = false);
-	void SetGameMenuTypes(EGameMenuTypes menuType, bool isNeedShowMenu);
+	void SetGameMenuTypes(EGameMenuTypes menuType, bool isNeedShowMenu, bool isPlayGame);
+	void SetUnHighlightAllSquares();
 	EGameMenuTypes GetGameMenuTypes();
 	bool GetIsNeedShowMenu();
+	bool GetIsPlayGame();
+
+	void SetSelectedChessPiece(ACppChessPiece* chessPiece);
+	void SetSelectedChessSquare(ACppChessSquare* chessSquare);
+	ACppChessPiece* GetSelectedChessPiece();
+	ACppChessSquare* GetSelectedChessSquare();
+
+	ACppChessSquare* FindParentSquareByLocation(FVector childLocation);
+	ACppChessPiece* FindChildPieceByLocation(FVector parentLocation);
 	EPlayerColors GetActivePlayerColor();
 	int GetActivePlayerIndex();
 	FPlayerInformation* GetActivePlayerInformation();
 	FPlayerInformation* GetPlayerInformation(EPlayerColors colorType);
 	FPlayerInformation* GetPlayerInformation(int index);
 	UMaterialInstance* GetMaterialWithTypes(EMaterialTypes materialType);
+	UStaticMesh* GetMeshWithTypes(EChessPieceTypes chessPiece);
 	
 };
