@@ -39,6 +39,8 @@ private:
 		int _xIndex;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ChessBoard", meta = (AllowPrivateAccess = "true"))
 		int _yIndex;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ChessBoard", meta = (AllowPrivateAccess = "true"))
+		bool _isPosibleMoveSquare = false;
 
 private:
 	UFUNCTION()
@@ -47,7 +49,6 @@ private:
 private:
 	void SetBoardSquareMaterial();
 	void SetGameModeReference();
-
 
 public:
 	void SetHighlightMaterial(UMaterialInstance* materialInstance, bool isVisible, bool isUnlightAllMaterial);
@@ -58,6 +59,6 @@ public:
 	FORCEINLINE EPlayerColors GetSquareBoardColor() const { return this->_colorType; }
 	FORCEINLINE int GetIndexX() const { return this->_xIndex; }
 	FORCEINLINE int GetIndexY() const { return this->_yIndex; }
-	//FORCEINLINE void SetIndexX(int xIndex) { this->_xIndex = xIndex; }
-	//FORCEINLINE void SetIndexY(int yIndex) { this->_yIndex = yIndex; }
+	FORCEINLINE bool GetIsPosibleMoveSquare() { return this->_isPosibleMoveSquare; }
+	FORCEINLINE void SetIsPosibleMoveSquare(bool isPosibleMoveSquare) { this->_isPosibleMoveSquare = isPosibleMoveSquare; }
 };

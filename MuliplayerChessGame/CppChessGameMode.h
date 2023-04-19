@@ -77,15 +77,18 @@ public:
 	void PlayGame(bool isRestart = false);
 	void SetGameMenuTypes(EGameMenuTypes menuType, bool isNeedShowMenu, bool isPlayGame);
 	void SetUnHighlightAllSquares();
+	void SetHighlightPosibleMoveLocation();
 	EGameMenuTypes GetGameMenuTypes();
 	bool GetIsNeedShowMenu();
 	bool GetIsPlayGame();
-
+	int GetSquareBoardIndex(int xIndex, int yIndex);
+	TArray<ACppChessSquare*> GetPosibleMovesChessSquareBoards(ACppChessPiece* chessPiece);
 	void SetSelectedChessPiece(ACppChessPiece* chessPiece);
 	void SetSelectedChessSquare(ACppChessSquare* chessSquare);
 	ACppChessPiece* GetSelectedChessPiece();
 	ACppChessSquare* GetSelectedChessSquare();
-
+	ACppChessSquare* GetChessSquareBoardByIndex(int index);
+	ACppChessSquare* GetChessSquareBoardByAxis(int xIndex, int yIndex);
 	ACppChessSquare* FindParentSquareByLocation(FVector childLocation);
 	ACppChessPiece* FindChildPieceByLocation(FVector parentLocation);
 	EPlayerColors GetActivePlayerColor();
@@ -93,7 +96,7 @@ public:
 	FPlayerInformation* GetActivePlayerInformation();
 	FPlayerInformation* GetPlayerInformation(EPlayerColors colorType);
 	FPlayerInformation* GetPlayerInformation(int index);
-	UMaterialInstance* GetMaterialWithTypes(EMaterialTypes materialType);
+	UMaterialInstance* GetMaterialByTypes(EMaterialTypes materialType);
 	UStaticMesh* GetMeshWithTypes(EChessPieceTypes chessPiece);
 	
 };

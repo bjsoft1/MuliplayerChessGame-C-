@@ -43,12 +43,25 @@ private:
 	void SetGameModeReference();
 	void SetChessPiecesReference();
 	void SetChessSquareBoardReference();
-	
+	//-------------------------
+
+private:
+	TArray<ACppChessSquare*> GetChessPiecePosibleMovesSquares_Pawn(ACppChessPiece* selectedChessPiece);
+	TArray<ACppChessSquare*> GetChessPiecePosibleMovesSquares_Rook(ACppChessPiece* selectedChessPiece);
+	TArray<ACppChessSquare*> GetChessPiecePosibleMovesSquares_Knight(ACppChessPiece* selectedChessPiece);
+	TArray<ACppChessSquare*> GetChessPiecePosibleMovesSquares_Bishop(ACppChessPiece* selectedChessPiece);
+	TArray<ACppChessSquare*> GetChessPiecePosibleMovesSquares_Queen(ACppChessPiece* selectedChessPiece);
+	TArray<ACppChessSquare*> GetChessPiecePosibleMovesSquares_King(ACppChessPiece* selectedChessPiece);
 
 public:
-	UMaterialInstance* GetMaterialWithTypes(EMaterialTypes materialType);
+	UMaterialInstance* GetMaterialByTypes(EMaterialTypes materialType);
+	bool GetIsValidSquarePiece(int xIndex, int yIndex);
+	ACppChessSquare* GetChessSquareBoardByIndex(int index);
+	ACppChessSquare* GetChessSquareBoardByAxis(int xIndex, int yIndex);
+	TArray<ACppChessSquare*> GetPosibleMovesChessSquareBoards(ACppChessPiece* chessPiece);
 	void PlayGame();
 	void SetUnHighlightAllSquares();
+	void SetHighlightPosibleMoveLocation();
 	ACppChessSquare* FindParentSquareByLocation(FVector childLocation);
 	ACppChessPiece* FindChildPieceByLocation(FVector parentLocation);
 

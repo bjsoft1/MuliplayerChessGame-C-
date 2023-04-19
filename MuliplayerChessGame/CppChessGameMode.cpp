@@ -99,6 +99,14 @@ void ACppChessGameMode::SetUnHighlightAllSquares()
 	if (this->_chessBoard)
 		this->_chessBoard->SetUnHighlightAllSquares();
 }
+void ACppChessGameMode::SetHighlightPosibleMoveLocation()
+{
+	if (!this->_chessBoard)
+		this->SetChessBoardReference();
+
+	if (this->_chessBoard)
+		this->_chessBoard->SetHighlightPosibleMoveLocation();
+}
 EGameMenuTypes ACppChessGameMode::GetGameMenuTypes()
 {
 	UGameInstance* instance = AActor::GetGameInstance();
@@ -134,6 +142,19 @@ bool ACppChessGameMode::GetIsPlayGame()
 
 	return false;
 }
+int ACppChessGameMode::GetSquareBoardIndex(int xIndex, int yIndex)
+{
+	if (!this->_chessBoard)
+		this->SetChessBoardReference();
+
+	return this->_chessBoard->GetSquareBoardIndex(xIndex, yIndex);
+}
+TArray<ACppChessSquare*> ACppChessGameMode::GetPosibleMovesChessSquareBoards(ACppChessPiece* chessPiece)
+{
+	if (!this->_chessBoard)
+		this->SetChessBoardReference();
+	return this->_chessBoard->GetPosibleMovesChessSquareBoards(chessPiece);
+}
 void ACppChessGameMode::SetSelectedChessPiece(ACppChessPiece* chessPiece)
 {
 	if (!this->_chessBoard)
@@ -162,6 +183,22 @@ ACppChessSquare* ACppChessGameMode::GetSelectedChessSquare()
 		this->SetChessBoardReference();
 	if (this->_chessBoard)
 		return this->_chessBoard->GetSelectedChessSquare();
+	return nullptr;
+}
+ACppChessSquare* ACppChessGameMode::GetChessSquareBoardByIndex(int index)
+{
+	if (!this->_chessBoard)
+		this->SetChessBoardReference();
+	if (this->_chessBoard)
+		return this->_chessBoard->GetChessSquareBoardByIndex(index);
+	return nullptr;
+}
+ACppChessSquare* ACppChessGameMode::GetChessSquareBoardByAxis(int xIndex, int yIndex)
+{
+	if (!this->_chessBoard)
+		this->SetChessBoardReference();
+	if (this->_chessBoard)
+		return this->_chessBoard->GetChessSquareBoardByAxis(xIndex, yIndex);
 	return nullptr;
 }
 ACppChessSquare* ACppChessGameMode::FindParentSquareByLocation(FVector childLocation)
@@ -219,7 +256,7 @@ FPlayerInformation* ACppChessGameMode::GetPlayerInformation(int index)
 
 	return this->_chessPlayer->GetPlayerInformation(index);
 }
-UMaterialInstance* ACppChessGameMode::GetMaterialWithTypes(EMaterialTypes materialType)
+UMaterialInstance* ACppChessGameMode::GetMaterialByTypes(EMaterialTypes materialType)
 {
 	switch (materialType)
 	{

@@ -35,9 +35,10 @@ void ACppChessPiece::E_ChessPieceClick(UPrimitiveComponent* TouchedComponent, FK
 
 	if (this->_chessGameMode)
 	{
-		if (this->_parentSquareBoard)
-			this->_parentSquareBoard->SetHighlightMaterial(this->_chessGameMode->GetMaterialWithTypes(EMaterialTypes::MarkerHighlight), true, true);
+		//if (this->_parentSquareBoard)
+		//	this->_parentSquareBoard->SetHighlightMaterial(this->_chessGameMode->GetMaterialByTypes(EMaterialTypes::MarkerHighlight), true, true);
 		this->_chessGameMode->SetSelectedChessPiece(this);
+		this->_chessGameMode->SetHighlightPosibleMoveLocation();
 	}
 }
 void ACppChessPiece::SetGameModeReference()
