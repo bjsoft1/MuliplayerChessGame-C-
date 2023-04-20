@@ -63,7 +63,7 @@ void UCppWidgetMenu::QuitGame()
 }
 void UCppWidgetMenu::MainMenu()
 {
-	//UE_LOG(LogTemp, Warning, TEXT("H000000-25"));
+	////UE_LOG(LogTemp, Warning, TEXT("H000000-25"));
 	this->SetShowMenuStyle(EGameMenuTypes::StartMenu, true, false);
 	UGameplayStatics::OpenLevel(GetWorld(), FName("GameLevel"), true);
 }
@@ -108,7 +108,7 @@ void UCppWidgetMenu::SetShowMenuStyle(EGameMenuTypes menuType, bool isNeedShowMe
 {
 	if (this->_chessGameMode)
 		this->_chessGameMode->SetGameMenuTypes(menuType, isNeedShowMenu, isPlayGame);
-	//UE_LOG(LogTemp, Warning, TEXT("H000000-12"));
+	////UE_LOG(LogTemp, Warning, TEXT("H000000-12"));
 	if (this->IsInViewport())
 		this->RemoveFromViewport();
 

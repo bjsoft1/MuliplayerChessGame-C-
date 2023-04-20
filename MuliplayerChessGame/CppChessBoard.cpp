@@ -158,7 +158,104 @@ TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_Pawn(A
 TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_Rook(ACppChessPiece* selectedChessPiece)
 {
 	TArray<ACppChessSquare*> squares;
+	ACppChessSquare* square;
+	int x = selectedChessPiece->GetParentSquare()->GetIndexX();
+	int y = selectedChessPiece->GetParentSquare()->GetIndexY();
+	//----------------------------------
+	//Forward Y
+	for (int i = 1; i < 7; i++)
+	{
+		if (this->GetIsValidSquarePiece(x, y + i))
+		{
+			square = this->GetChessSquareBoardByAxis(x, y + i);
+			if (!square)
+				continue;
+			if (!square->GetChildPiece())
+				squares.Add(square);
+			else if (!this->IsFriendChessPiece(selectedChessPiece, square->GetChildPiece()))
+			{
+				squares.Add(square);
+				break;
+			}
+			else
+				break;
+		}
+		else
+			break;
+	}
+	//----------------------------------
 
+	//----------------------------------
+	//Backward Y
+	for (int i = 1; i < 7; i++)
+	{
+		if (this->GetIsValidSquarePiece(x, y - i))
+		{
+			square = this->GetChessSquareBoardByAxis(x, y - i);
+			if (!square)
+				continue;
+			if (!square->GetChildPiece())
+				squares.Add(square);
+			else if (!this->IsFriendChessPiece(selectedChessPiece, square->GetChildPiece()))
+			{
+				squares.Add(square);
+				break;
+			}
+			else
+				break;
+		}
+		else
+			break;
+	}
+	//----------------------------------
+
+	//----------------------------------
+	//Forward X
+	for (int i = 1; i < 7; i++)
+	{
+		if (this->GetIsValidSquarePiece(x + i, y))
+		{
+			square = this->GetChessSquareBoardByAxis(x + i, y);
+			if (!square)
+				continue;
+			if (!square->GetChildPiece())
+				squares.Add(square);
+			else if (!this->IsFriendChessPiece(selectedChessPiece, square->GetChildPiece()))
+			{
+				squares.Add(square);
+				break;
+			}
+			else
+				break;
+		}
+		else
+			break;
+	}
+	//----------------------------------
+
+	//----------------------------------
+	//Backward X
+	for (int i = 1; i < 7; i++)
+	{
+		if (this->GetIsValidSquarePiece(x - i, y))
+		{
+			square = this->GetChessSquareBoardByAxis(x - i, y);
+			if (!square)
+				continue;
+			if (!square->GetChildPiece())
+				squares.Add(square);
+			else if (!this->IsFriendChessPiece(selectedChessPiece, square->GetChildPiece()))
+			{
+				squares.Add(square);
+				break;
+			}
+			else
+				break;
+		}
+		else
+			break;
+	}
+	//----------------------------------
 	return squares;
 }
 TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_Knight(ACppChessPiece* selectedChessPiece)
@@ -190,7 +287,7 @@ bool ACppChessBoard::IsFriendChessPiece(ACppChessPiece* self, ACppChessPiece* ot
 	if (self && other)
 		if (self->GetPieceColor() == other->GetPieceColor())
 		{
-			UE_LOG(LogTemp, Warning, TEXT("TRue"));
+			//UE_LOG(LogTemp, Warning, TEXT("TRue"));
 			return true;
 		}
 	return false;
@@ -203,9 +300,17 @@ UMaterialInstance* ACppChessBoard::GetMaterialByTypes(EMaterialTypes materialTyp
 }
 bool ACppChessBoard::GetIsValidSquarePiece(int xIndex, int yIndex)
 {
-	if (xIndex >= 1 && yIndex <= 8 && this->GetSquareBoardIndex(xIndex, yIndex) >= 0 
-		&& this->GetSquareBoardIndex(xIndex, yIndex) <= 63)
-		return true;
+	if (xIndex >= 1 && yIndex <= 8)
+	{
+		//UE_LOG(LogTemp,Warning, TEXT("T000000000000000000000001"));
+		if (this->GetSquareBoardIndex(xIndex, yIndex) >= 0 && this->GetSquareBoardIndex(xIndex, yIndex) <= 63)
+		{
+			//UE_LOG(LogTemp, Warning, TEXT("T000000000000000000000002"));
+			return true;
+		}
+
+	}
+	//UE_LOG(LogTemp, Warning, TEXT("T000000000000000000000003"));
 	return false;
 }
 ACppChessSquare* ACppChessBoard::GetChessSquareBoardByIndex(int index)
@@ -287,7 +392,7 @@ void ACppChessBoard::PlayGame()
 		_chessPieces[2]->SetPieceColor(EPlayerColors::White);
 		_chessPieces[2]->SetParentSquare(this->_chessSquareBoards[0]);
 		this->_chessSquareBoards[0]->SetChildPiece(this->_chessPieces[2]);
-
+		
 		_chessPieces[3]->SetPieceMesh(mesh);
 		_chessPieces[3]->SetPieceMaterial(whiteMaterial);
 		_chessPieces[3]->SetChessPieceLocation(this->_chessSquareBoards[56]->GetActorLocation());
@@ -571,7 +676,7 @@ void ACppChessBoard::SetHighlightPosibleMoveLocation()
 		if (squares.Num() > 0)
 		{
 			this->SetUnHighlightAllSquares();
-			UE_LOG(LogTemp, Warning, TEXT("TotalPosibleSquare-%d"),squares.Num());
+			//UE_LOG(LogTemp, Warning, TEXT("TotalPosibleSquare-%d"),squares.Num());
 			for (ACppChessSquare* cs : squares)
 			{
 				if (cs)
@@ -582,7 +687,7 @@ void ACppChessBoard::SetHighlightPosibleMoveLocation()
 			}
 		}
 	}
-	UE_LOG(LogTemp, Warning, TEXT("*****************************"));
+	//UE_LOG(LogTemp, Warning, TEXT("*****************************"));
 }
 ACppChessSquare* ACppChessBoard::FindParentSquareByLocation(FVector childLocation)
 {

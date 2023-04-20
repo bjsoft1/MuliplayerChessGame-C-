@@ -56,13 +56,13 @@ void ACppChessSquare::E_SquareBoardClick(UPrimitiveComponent* TouchedComponent, 
 			}
 		}
 	}
-	////UE_LOG(LogTemp, Warning, TEXT("0001"));
+	//////UE_LOG(LogTemp, Warning, TEXT("0001"));
 	//this->SetHighlightMaterial(_chessGameMode->GetMaterialByTypes(EMaterialTypes::MarkerHighlight), true, true);
 	//this->_chessGameMode->SetSelectedChessSquare(this);
-	UE_LOG(LogTemp, Warning, TEXT("x-%d"), this->_xIndex);
-	UE_LOG(LogTemp, Warning, TEXT("y-%d"), this->_yIndex);
-	UE_LOG(LogTemp, Warning, TEXT("Index-%d"), this->_chessGameMode->GetSquareBoardIndex(this->_xIndex, this->_yIndex));
-	UE_LOG(LogTemp, Warning, TEXT("--------------"));
+	//UE_LOG(LogTemp, Warning, TEXT("x-%d"), this->_xIndex);
+	//UE_LOG(LogTemp, Warning, TEXT("y-%d"), this->_yIndex);
+	//UE_LOG(LogTemp, Warning, TEXT("Index-%d"), this->_chessGameMode->GetSquareBoardIndex(this->_xIndex, this->_yIndex));
+	//UE_LOG(LogTemp, Warning, TEXT("--------------"));
 }
 void ACppChessSquare::SetBoardSquareMaterial()
 {
