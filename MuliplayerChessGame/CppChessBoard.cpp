@@ -163,7 +163,7 @@ TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_Rook(A
 	int y = selectedChessPiece->GetParentSquare()->GetIndexY();
 	//----------------------------------
 	//Forward Y
-	for (int i = 1; i < 7; i++)
+	for (int i = 1; i < 8; i++)
 	{
 		if (this->GetIsValidSquarePiece(x, y + i))
 		{
@@ -187,7 +187,7 @@ TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_Rook(A
 
 	//----------------------------------
 	//Backward Y
-	for (int i = 1; i < 7; i++)
+	for (int i = 1; i < 8; i++)
 	{
 		if (this->GetIsValidSquarePiece(x, y - i))
 		{
@@ -211,7 +211,7 @@ TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_Rook(A
 
 	//----------------------------------
 	//Forward X
-	for (int i = 1; i < 7; i++)
+	for (int i = 1; i < 8; i++)
 	{
 		if (this->GetIsValidSquarePiece(x + i, y))
 		{
@@ -235,7 +235,7 @@ TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_Rook(A
 
 	//----------------------------------
 	//Backward X
-	for (int i = 1; i < 7; i++)
+	for (int i = 1; i < 8; i++)
 	{
 		if (this->GetIsValidSquarePiece(x - i, y))
 		{
