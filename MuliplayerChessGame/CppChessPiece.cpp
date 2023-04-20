@@ -33,12 +33,34 @@ void ACppChessPiece::E_ChessPieceClick(UPrimitiveComponent* TouchedComponent, FK
 	if (!this->_parentSquareBoard)
 		this->_chessGameMode->FindParentSquareByLocation(this->GetActorLocation());
 
-	if (this->_chessGameMode)
+	if (!this->_parentSquareBoard->GetIsPosibleMoveSquare())
 	{
-		//if (this->_parentSquareBoard)
-		//	this->_parentSquareBoard->SetHighlightMaterial(this->_chessGameMode->GetMaterialByTypes(EMaterialTypes::MarkerHighlight), true, true);
-		this->_chessGameMode->SetSelectedChessPiece(this);
-		this->_chessGameMode->SetHighlightPosibleMoveLocation();
+		if (this->_chessGameMode)
+		{
+			//if (this->_parentSquareBoard)
+			//	this->_parentSquareBoard->SetHighlightMaterial(this->_chessGameMode->GetMaterialByTypes(EMaterialTypes::MarkerHighlight), true, true);
+			this->_chessGameMode->SetSelectedChessPiece(this);
+			this->_chessGameMode->SetHighlightPosibleMoveLocation();
+		}
+	}
+	else
+	{
+		TArray<ACppChessSquare*> squares = _chessGameMode->GetPosibleMovesChessSquareBoards(this->_chessGameMode->GetSelectedChessPiece());
+		for (ACppChessSquare* cs : squares)
+		{
+			if (cs == this->_parentSquareBoard)
+			{
+				ACppChessPiece* chessPiece = this->_chessGameMode->GetSelectedChessPiece();
+				chessPiece->GetParentSquare()->SetChildPiece(nullptr);
+				this->_parentSquareBoard->SetChildPiece(chessPiece);
+				chessPiece->SetParentSquare(this->_parentSquareBoard);
+				chessPiece->SetChessPieceLocation(this->_parentSquareBoard->GetActorLocation());
+				chessPiece->SetPieceMoveCount(false);
+				this->_parentSquareBoard->SetHighlightMaterial(this->_chessGameMode->GetMaterialByTypes(EMaterialTypes::MarkerPiece), true, true);
+				this->_parentSquareBoard = nullptr;
+				this->Destroy();
+			}
+		}
 	}
 }
 void ACppChessPiece::SetGameModeReference()

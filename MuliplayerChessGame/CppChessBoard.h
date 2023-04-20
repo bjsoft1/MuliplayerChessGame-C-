@@ -52,6 +52,7 @@ private:
 	TArray<ACppChessSquare*> GetChessPiecePosibleMovesSquares_Bishop(ACppChessPiece* selectedChessPiece);
 	TArray<ACppChessSquare*> GetChessPiecePosibleMovesSquares_Queen(ACppChessPiece* selectedChessPiece);
 	TArray<ACppChessSquare*> GetChessPiecePosibleMovesSquares_King(ACppChessPiece* selectedChessPiece);
+	bool IsFriendChessPiece(ACppChessPiece* self, ACppChessPiece* other);
 
 public:
 	UMaterialInstance* GetMaterialByTypes(EMaterialTypes materialType);

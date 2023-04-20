@@ -77,18 +77,82 @@ void ACppChessBoard::SetChessSquareBoardReference()
 TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_Pawn(ACppChessPiece* selectedChessPiece)
 {
 	TArray<ACppChessSquare*> squares;
-	int y = 0;
+	int x = selectedChessPiece->GetParentSquare()->GetIndexX();
+	int y = selectedChessPiece->GetParentSquare()->GetIndexY();
+	ACppChessSquare* square;
 	if (selectedChessPiece->GetIsInitialMove())
 	{
-
+		// Forward Y (One Step)
+		if (this->GetIsValidSquarePiece(x, y + 1))
+		{
+			square = this->GetChessSquareBoardByAxis(x, y + 1);
+			if (!square->GetChildPiece())
+				squares.Add(square);
+		}
+		
+		// Forward Y (Two Step)
+		if (this->GetIsValidSquarePiece(x, y + 2))
+		{
+			square = this->GetChessSquareBoardByAxis(x, y + 2);
+			if (!square->GetChildPiece())
+				squares.Add(square);
+		}
+		
+		// ForwardLeft Y (Check Oponent Have?)
+		if (this->GetIsValidSquarePiece(x - 1, y + 1))
+		{
+			square = this->GetChessSquareBoardByAxis(x - 1, y + 1);
+			if (square->GetChildPiece())
+				if(!this->IsFriendChessPiece(selectedChessPiece, square->GetChildPiece()))
+					squares.Add(square);
+		}
+		// ForwardRight Y (Check Oponent Have?)
+		if (this->GetIsValidSquarePiece(x + 1, y + 1))
+		{
+			square = this->GetChessSquareBoardByAxis(x + 1, y + 1);
+			if (square->GetChildPiece())
+				if (!this->IsFriendChessPiece(selectedChessPiece, square->GetChildPiece()))
+					squares.Add(square);
+		}
 	}
 	else
 	{
+		// Forward Y (One Step)
+		if (this->GetIsValidSquarePiece(x, y + 1))
+		{
+			square = this->GetChessSquareBoardByAxis(x, y + 1);
+			if (!square->GetChildPiece())
+				squares.Add(square);
+		}
 
+		//// Forward Y (Two Step)
+		//if (this->GetIsValidSquarePiece(x, y + 2))
+		//{
+		//	square = this->GetChessSquareBoardByAxis(x, y + 2);
+		//	if (!square->GetChildPiece())
+		//		squares.Add(square);
+		//}
+
+		// ForwardLeft Y (Check Oponent Have?)
+		if (this->GetIsValidSquarePiece(x - 1, y + 1))
+		{
+			square = this->GetChessSquareBoardByAxis(x - 1, y + 1);
+			if (square->GetChildPiece())
+				if (!this->IsFriendChessPiece(selectedChessPiece, square->GetChildPiece()))
+					squares.Add(square);
+		}
+		// ForwardRight Y (Check Oponent Have?)
+		if (this->GetIsValidSquarePiece(x + 1, y + 1))
+		{
+			square = this->GetChessSquareBoardByAxis(x + 1, y + 1);
+			if (square->GetChildPiece())
+				if (!this->IsFriendChessPiece(selectedChessPiece, square->GetChildPiece()))
+					squares.Add(square);
+		}
 	}
-	squares.Add(this->GetChessSquareBoardByAxis(selectedChessPiece->GetParentSquare()->GetIndexX(), selectedChessPiece->GetParentSquare()->GetIndexY() + 0));
-	squares.Add(this->GetChessSquareBoardByAxis(selectedChessPiece->GetParentSquare()->GetIndexX(), selectedChessPiece->GetParentSquare()->GetIndexY() + 1));
-	squares.Add(this->GetChessSquareBoardByAxis(selectedChessPiece->GetParentSquare()->GetIndexX(), selectedChessPiece->GetParentSquare()->GetIndexY() + 2));
+	//squares.Add(this->GetChessSquareBoardByAxis(, selectedChessPiece->GetParentSquare()->GetIndexY() + 0));
+	//squares.Add(this->GetChessSquareBoardByAxis(selectedChessPiece->GetParentSquare()->GetIndexX(), selectedChessPiece->GetParentSquare()->GetIndexY() + 1));
+	//squares.Add(this->GetChessSquareBoardByAxis(selectedChessPiece->GetParentSquare()->GetIndexX(), selectedChessPiece->GetParentSquare()->GetIndexY() + 2));
 	return squares;
 }
 TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_Rook(ACppChessPiece* selectedChessPiece)
@@ -121,6 +185,16 @@ TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_King(A
 
 	return squares;
 }
+bool ACppChessBoard::IsFriendChessPiece(ACppChessPiece* self, ACppChessPiece* other)
+{
+	if (self && other)
+		if (self->GetPieceColor() == other->GetPieceColor())
+		{
+			UE_LOG(LogTemp, Warning, TEXT("TRue"));
+			return true;
+		}
+	return false;
+}
 UMaterialInstance* ACppChessBoard::GetMaterialByTypes(EMaterialTypes materialType)
 {
 	if (!this->_chessGameMode)
@@ -129,7 +203,8 @@ UMaterialInstance* ACppChessBoard::GetMaterialByTypes(EMaterialTypes materialTyp
 }
 bool ACppChessBoard::GetIsValidSquarePiece(int xIndex, int yIndex)
 {
-	if (xIndex >= 1 && yIndex <= 8)
+	if (xIndex >= 1 && yIndex <= 8 && this->GetSquareBoardIndex(xIndex, yIndex) >= 0 
+		&& this->GetSquareBoardIndex(xIndex, yIndex) <= 63)
 		return true;
 	return false;
 }
@@ -470,14 +545,12 @@ void ACppChessBoard::PlayGame()
 		this->_chessSquareBoards[57]->SetChildPiece(this->_chessPieces[31]);
 		//--------------------------------------
 	}
-
 }
 void ACppChessBoard::SetUnHighlightAllSquares()
 {
 	if (this->_chessSquareBoards.Num() != 64)
 		this->SetChessSquareBoardReference();
-	this->GetPosibleMovesChessSquareBoards(this->_selectedChessPiece);
-
+	//this->GetPosibleMovesChessSquareBoards(this->_selectedChessPiece);
 	for (ACppChessSquare* cs : this->_chessSquareBoards)
 	{
 		cs->SetHighlightMaterial(nullptr, false, false);
@@ -498,6 +571,7 @@ void ACppChessBoard::SetHighlightPosibleMoveLocation()
 		if (squares.Num() > 0)
 		{
 			this->SetUnHighlightAllSquares();
+			UE_LOG(LogTemp, Warning, TEXT("TotalPosibleSquare-%d"),squares.Num());
 			for (ACppChessSquare* cs : squares)
 			{
 				if (cs)

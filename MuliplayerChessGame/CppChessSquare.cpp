@@ -46,9 +46,12 @@ void ACppChessSquare::E_SquareBoardClick(UPrimitiveComponent* TouchedComponent, 
 			{
 				ACppChessPiece* chessPiece = this->_chessGameMode->GetSelectedChessPiece();
 				chessPiece->GetParentSquare()->SetChildPiece(nullptr);
+				if (this->_childPiece)
+					this->_childPiece->Destroy();
 				this->SetChildPiece(chessPiece);
 				chessPiece->SetParentSquare(this);
 				chessPiece->SetChessPieceLocation(this->GetActorLocation());
+				chessPiece->SetPieceMoveCount(false);
 				this->SetHighlightMaterial(this->_chessGameMode->GetMaterialByTypes(EMaterialTypes::MarkerPiece), true, true);
 			}
 		}
@@ -56,10 +59,10 @@ void ACppChessSquare::E_SquareBoardClick(UPrimitiveComponent* TouchedComponent, 
 	////UE_LOG(LogTemp, Warning, TEXT("0001"));
 	//this->SetHighlightMaterial(_chessGameMode->GetMaterialByTypes(EMaterialTypes::MarkerHighlight), true, true);
 	//this->_chessGameMode->SetSelectedChessSquare(this);
-	//UE_LOG(LogTemp, Warning, TEXT("x-%d"), this->_xIndex);
-	//UE_LOG(LogTemp, Warning, TEXT("y-%d"), this->_yIndex);
-	//UE_LOG(LogTemp, Warning, TEXT("Index-%d"), this->_chessGameMode->GetSquareBoardIndex(this->_xIndex, this->_yIndex));
-	//UE_LOG(LogTemp, Warning, TEXT("--------------"));
+	UE_LOG(LogTemp, Warning, TEXT("x-%d"), this->_xIndex);
+	UE_LOG(LogTemp, Warning, TEXT("y-%d"), this->_yIndex);
+	UE_LOG(LogTemp, Warning, TEXT("Index-%d"), this->_chessGameMode->GetSquareBoardIndex(this->_xIndex, this->_yIndex));
+	UE_LOG(LogTemp, Warning, TEXT("--------------"));
 }
 void ACppChessSquare::SetBoardSquareMaterial()
 {
