@@ -17,7 +17,7 @@ void ACppChessPiece::BeginPlay()
 {
 	Super::BeginPlay();
 	this->SetGameModeReference();
-
+	this->_chessPieceMeshComponent->SetCastShadow(false);
 	this->_chessPieceMeshComponent->OnClicked.AddDynamic(this, &ACppChessPiece::E_ChessPieceClick);
 }
 void ACppChessPiece::Tick(float DeltaTime)
@@ -58,6 +58,21 @@ void ACppChessPiece::E_ChessPieceClick(UPrimitiveComponent* TouchedComponent, FK
 				chessPiece->SetPieceMoveCount(false);
 				this->_parentSquareBoard->SetHighlightMaterial(this->_chessGameMode->GetMaterialByTypes(EMaterialTypes::MarkerPiece), true, true);
 				this->_parentSquareBoard = nullptr;
+				this->_chessGameMode->SetPlayerCamera(this->_chessGameMode->GetActivePlayerColor()
+					== EPlayerColors::White ? EPlayerColors::Black : EPlayerColors::White);
+				if (chessPiece->GetPieceType() == EChessPieceTypes::Pawn)
+				{
+					if (chessPiece->GetPieceColor() == EPlayerColors::White && chessPiece->GetParentSquare()->GetIndexY() == 8)
+					{
+						chessPiece->SetPieceType(EChessPieceTypes::Queen);
+						chessPiece->SetPieceMesh(this->_chessGameMode->GetMeshWithTypes(EChessPieceTypes::Queen));
+					}
+					else if(chessPiece->GetPieceColor() == EPlayerColors::Black && chessPiece->GetParentSquare()->GetIndexY() == 1)
+					{
+						chessPiece->SetPieceType(EChessPieceTypes::Queen);
+						chessPiece->SetPieceMesh(this->_chessGameMode->GetMeshWithTypes(EChessPieceTypes::Queen));
+					}
+				}
 				this->Destroy();
 			}
 		}
@@ -83,7 +98,7 @@ void ACppChessPiece::SetLocation(float DeltaTime)
 }
 void ACppChessPiece::SetPieceMesh(UStaticMesh* mesh)
 {
-	if (mesh && this->_moveCount == 0)
+	if (mesh)
 		this->_chessPieceMeshComponent->SetStaticMesh(mesh);
 }
 void ACppChessPiece::SetPieceMaterial(UMaterialInstance* materialInstance)

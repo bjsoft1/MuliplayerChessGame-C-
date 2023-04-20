@@ -53,16 +53,27 @@ void ACppChessSquare::E_SquareBoardClick(UPrimitiveComponent* TouchedComponent, 
 				chessPiece->SetChessPieceLocation(this->GetActorLocation());
 				chessPiece->SetPieceMoveCount(false);
 				this->SetHighlightMaterial(this->_chessGameMode->GetMaterialByTypes(EMaterialTypes::MarkerPiece), true, true);
+				this->_chessGameMode->SetPlayerCamera(this->_chessGameMode->GetActivePlayerColor()
+					== EPlayerColors::White ? EPlayerColors::Black : EPlayerColors::White);
+
+				if (chessPiece->GetPieceType() == EChessPieceTypes::Pawn)
+				{
+					if (chessPiece->GetPieceColor() == EPlayerColors::White && this->_yIndex == 8)
+					{
+						chessPiece->SetPieceMoveCount(true);
+						chessPiece->SetPieceType(EChessPieceTypes::Queen);
+						chessPiece->SetPieceMesh(this->_chessGameMode->GetMeshWithTypes(EChessPieceTypes::Queen));
+					}
+					else if (chessPiece->GetPieceColor() == EPlayerColors::Black && this->_yIndex == 1)
+					{
+						chessPiece->SetPieceMoveCount(true);
+						chessPiece->SetPieceType(EChessPieceTypes::Queen);
+						chessPiece->SetPieceMesh(this->_chessGameMode->GetMeshWithTypes(EChessPieceTypes::Queen));
+					}
+				}
 			}
 		}
 	}
-	//////UE_LOG(LogTemp, Warning, TEXT("0001"));
-	//this->SetHighlightMaterial(_chessGameMode->GetMaterialByTypes(EMaterialTypes::MarkerHighlight), true, true);
-	//this->_chessGameMode->SetSelectedChessSquare(this);
-	//UE_LOG(LogTemp, Warning, TEXT("x-%d"), this->_xIndex);
-	//UE_LOG(LogTemp, Warning, TEXT("y-%d"), this->_yIndex);
-	//UE_LOG(LogTemp, Warning, TEXT("Index-%d"), this->_chessGameMode->GetSquareBoardIndex(this->_xIndex, this->_yIndex));
-	//UE_LOG(LogTemp, Warning, TEXT("--------------"));
 }
 void ACppChessSquare::SetBoardSquareMaterial()
 {

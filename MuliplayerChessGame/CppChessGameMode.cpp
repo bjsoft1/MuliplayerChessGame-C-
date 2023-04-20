@@ -169,6 +169,13 @@ void ACppChessGameMode::SetSelectedChessSquare(ACppChessSquare* chessSquare)
 	if (this->_chessBoard)
 		this->_chessBoard->SetSelectedChessSquare(chessSquare);
 }
+void ACppChessGameMode::SetPlayerCamera(EPlayerColors playerColor)
+{
+	if (!this->_chessPlayer)
+		this->SetChessPlayerReference();
+
+	this->_chessPlayer->SetPlayerCamera(playerColor);
+}
 ACppChessPiece* ACppChessGameMode::GetSelectedChessPiece()
 {
 	if (!this->_chessBoard)

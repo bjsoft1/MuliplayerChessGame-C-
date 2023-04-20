@@ -79,82 +79,79 @@ TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_Pawn(A
 	int x = selectedChessPiece->GetParentSquare()->GetIndexX();
 	int y = selectedChessPiece->GetParentSquare()->GetIndexY();
 	ACppChessSquare* square;
+
+	int axisType = selectedChessPiece->GetPieceColor() == EPlayerColors::White ? 1 : -1;
+
 	if (selectedChessPiece->GetIsInitialMove())
 	{
 		// Forward Y (One Step)
-		if (this->GetIsValidSquarePiece(x, y + 1))
+		if (this->GetIsValidSquarePiece(x, y + 1 * axisType))
 		{
-			square = this->GetChessSquareBoardByAxis(x, y + 1);
-			if (!square->GetChildPiece())
-			{
-				squares.Add(square);
-				// Forward Y (Two Step)
-				if (this->GetIsValidSquarePiece(x, y + 2))
+			square = this->GetChessSquareBoardByAxis(x, y + 1 * axisType);
+			if (square)
+				if (!square->GetChildPiece())
 				{
-					square = this->GetChessSquareBoardByAxis(x, y + 2);
-					if (!square->GetChildPiece())
-						squares.Add(square);
+					squares.Add(square);
+					// Forward Y (Two Step)
+					if (this->GetIsValidSquarePiece(x, y + 2 * axisType))
+					{
+						square = this->GetChessSquareBoardByAxis(x, y + 2 * axisType);
+						if (!square->GetChildPiece())
+							squares.Add(square);
+					}
 				}
-			}
 		}
-		
-		
-		
+
 		// ForwardLeft Y (Check Oponent Have?)
 		if (this->GetIsValidSquarePiece(x - 1, y + 1))
 		{
-			square = this->GetChessSquareBoardByAxis(x - 1, y + 1);
-			if (square->GetChildPiece())
-				if(!this->IsFriendChessPiece(selectedChessPiece, square->GetChildPiece()))
-					squares.Add(square);
+			square = this->GetChessSquareBoardByAxis(x - 1, y + 1 * axisType);
+			if (square)
+				if (square->GetChildPiece())
+					if (!this->IsFriendChessPiece(selectedChessPiece, square->GetChildPiece()))
+						squares.Add(square);
 		}
 		// ForwardRight Y (Check Oponent Have?)
 		if (this->GetIsValidSquarePiece(x + 1, y + 1))
 		{
-			square = this->GetChessSquareBoardByAxis(x + 1, y + 1);
-			if (square->GetChildPiece())
-				if (!this->IsFriendChessPiece(selectedChessPiece, square->GetChildPiece()))
-					squares.Add(square);
+			square = this->GetChessSquareBoardByAxis(x + 1, y + 1 * axisType);
+			if (square)
+				if (square->GetChildPiece())
+					if (!this->IsFriendChessPiece(selectedChessPiece, square->GetChildPiece()))
+						squares.Add(square);
 		}
 	}
 	else
 	{
 		// Forward Y (One Step)
-		if (this->GetIsValidSquarePiece(x, y + 1))
+		if (this->GetIsValidSquarePiece(x, y + 1 * axisType))
 		{
-			square = this->GetChessSquareBoardByAxis(x, y + 1);
-			if (!square->GetChildPiece())
-				squares.Add(square);
+			square = this->GetChessSquareBoardByAxis(x, y + 1 * axisType);
+			if (square)
+				if (!square->GetChildPiece())
+					squares.Add(square);
 		}
-
-		//// Forward Y (Two Step)
-		//if (this->GetIsValidSquarePiece(x, y + 2))
-		//{
-		//	square = this->GetChessSquareBoardByAxis(x, y + 2);
-		//	if (!square->GetChildPiece())
-		//		squares.Add(square);
-		//}
 
 		// ForwardLeft Y (Check Oponent Have?)
 		if (this->GetIsValidSquarePiece(x - 1, y + 1))
 		{
-			square = this->GetChessSquareBoardByAxis(x - 1, y + 1);
-			if (square->GetChildPiece())
-				if (!this->IsFriendChessPiece(selectedChessPiece, square->GetChildPiece()))
-					squares.Add(square);
+			square = this->GetChessSquareBoardByAxis(x - 1, y + 1 * axisType);
+			if (square)
+				if (square->GetChildPiece())
+					if (!this->IsFriendChessPiece(selectedChessPiece, square->GetChildPiece()))
+						squares.Add(square);
 		}
 		// ForwardRight Y (Check Oponent Have?)
 		if (this->GetIsValidSquarePiece(x + 1, y + 1))
 		{
-			square = this->GetChessSquareBoardByAxis(x + 1, y + 1);
-			if (square->GetChildPiece())
-				if (!this->IsFriendChessPiece(selectedChessPiece, square->GetChildPiece()))
-					squares.Add(square);
+			square = this->GetChessSquareBoardByAxis(x + 1, y + 1 * axisType);
+			if (square)
+				if (square->GetChildPiece())
+					if (!this->IsFriendChessPiece(selectedChessPiece, square->GetChildPiece()))
+						squares.Add(square);
 		}
 	}
-	//squares.Add(this->GetChessSquareBoardByAxis(, selectedChessPiece->GetParentSquare()->GetIndexY() + 0));
-	//squares.Add(this->GetChessSquareBoardByAxis(selectedChessPiece->GetParentSquare()->GetIndexX(), selectedChessPiece->GetParentSquare()->GetIndexY() + 1));
-	//squares.Add(this->GetChessSquareBoardByAxis(selectedChessPiece->GetParentSquare()->GetIndexX(), selectedChessPiece->GetParentSquare()->GetIndexY() + 2));
+
 	return squares;
 }
 TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_Rook(ACppChessPiece* selectedChessPiece)
@@ -488,10 +485,10 @@ TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_Queen(
 	for (ACppChessSquare* cs : tempSquares)
 		squares.Add(cs);
 	
-	// King (Raja) Moves
-	tempSquares = this->GetChessPiecePosibleMovesSquares_King(selectedChessPiece);
-	for (ACppChessSquare* cs : tempSquares)
-		squares.Add(cs);
+	//// King (Raja) Moves
+	//tempSquares = this->GetChessPiecePosibleMovesSquares_King(selectedChessPiece);
+	//for (ACppChessSquare* cs : tempSquares)
+	//	squares.Add(cs);
 
 	// Bishop (Uta) Moves
 	tempSquares = this->GetChessPiecePosibleMovesSquares_Bishop(selectedChessPiece);

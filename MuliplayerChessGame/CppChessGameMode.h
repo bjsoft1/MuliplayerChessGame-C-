@@ -85,6 +85,7 @@ public:
 	TArray<ACppChessSquare*> GetPosibleMovesChessSquareBoards(ACppChessPiece* chessPiece);
 	void SetSelectedChessPiece(ACppChessPiece* chessPiece);
 	void SetSelectedChessSquare(ACppChessSquare* chessSquare);
+	void SetPlayerCamera(EPlayerColors playerColor);
 	ACppChessPiece* GetSelectedChessPiece();
 	ACppChessSquare* GetSelectedChessSquare();
 	ACppChessSquare* GetChessSquareBoardByIndex(int index);

@@ -119,20 +119,20 @@ void ACppChessPlayer::SetLocationRotation(float DeltaTime)
 	}
 	else
 	{
-		const FVector blackLocation = this->_billBoardWhite->GetRelativeLocation();
-		const FRotator blackRotation = this->_billBoardWhite->GetRelativeRotation();
+		const FVector BlackLocation = this->_billBoardBlack->GetRelativeLocation();
+		const FRotator BlackRotation = this->_billBoardBlack->GetRelativeRotation();
 
 		const FVector newLocation = FVector(
-			FMath::FInterpTo(oldLocation.X, blackLocation.X, DeltaTime, interpValue),
-			FMath::FInterpTo(oldLocation.Y, blackLocation.Y, DeltaTime, interpValue),
-			FMath::FInterpTo(oldLocation.Z, blackLocation.Z, DeltaTime, interpValue)
+			FMath::FInterpTo(oldLocation.X, BlackLocation.X, DeltaTime, interpValue),
+			FMath::FInterpTo(oldLocation.Y, BlackLocation.Y, DeltaTime, interpValue),
+			FMath::FInterpTo(oldLocation.Z, BlackLocation.Z, DeltaTime, interpValue)
 		);
 		const FRotator newRotator = FRotator(
-			FMath::FInterpTo(oldRotator.Pitch, blackRotation.Pitch, DeltaTime, interpValue),
-			FMath::FInterpTo(oldRotator.Yaw, blackRotation.Yaw, DeltaTime, interpValue),
-			FMath::FInterpTo(oldRotator.Roll, blackRotation.Roll, DeltaTime, interpValue)
+			FMath::FInterpTo(oldRotator.Pitch, BlackRotation.Pitch, DeltaTime, interpValue),
+			FMath::FInterpTo(oldRotator.Yaw, BlackRotation.Yaw, DeltaTime, interpValue),
+			FMath::FInterpTo(oldRotator.Roll, BlackRotation.Roll, DeltaTime, interpValue)
 		);
-		if (newLocation == oldLocation && newRotator == oldRotator)
+		if (newLocation == BlackLocation && newRotator == BlackRotation)
 			this->_isMovingCamera = false;
 		this->_billBoardCamera->SetRelativeLocation(newLocation);
 		this->_billBoardCamera->SetRelativeRotation(newRotator);
@@ -140,12 +140,8 @@ void ACppChessPlayer::SetLocationRotation(float DeltaTime)
 }
 void ACppChessPlayer::SetPlayerCamera(EPlayerColors colorType)
 {
-	this->SetActivePlayerColor(colorType);
+	this->_activeColor = colorType;
 	this->_isMovingCamera = true;
-	//this->SetActorLocation(FVector(0.0f, 0.0f, 0.0f));
-	//this->SetActorRotation(FRotator(0.0f, 0.0f, 0.0f));
-	//this->RootComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
-	//this->RootComponent->SetRelativeRotation(FRotator(0.0f, 0.0f, 0.0f));
 }
 FPlayerInformation* ACppChessPlayer::GetPlayerInformation(int index)
 {
