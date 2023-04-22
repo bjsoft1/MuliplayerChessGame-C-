@@ -1140,20 +1140,12 @@ bool ACppChessBoard::IsUpcomingCheckSelf(ACppChessPiece* selectedChessPiece, ACp
 	for (ACppChessPiece* cp : opponentPices)
 	{		
 		TArray<ACppChessSquare*> getAllPosibleSquares = this->GetPosibleMovesChessSquareBoards(cp);
-		if (cp->GetPieceType() == EChessPieceTypes::Queen)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("%d"), cp->GetPieceColor());
-			//UE_LOG(LogTemp, Warning, TEXT("Queen PosibleMovie   %d"), getAllPosibleSquares.Num());
-			//UE_LOG(LogTemp, Warning, TEXT("This is Queen  %d, %d"), cp->GetParentSquare()->GetIndexX(), cp->GetParentSquare()->GetIndexY());
-		}
 		for (ACppChessSquare* cs : getAllPosibleSquares)
 		{
-			
-
 			//UE_LOG(LogTemp, Warning, TEXT("For-02"));
 			if (cs == kingPiece->GetParentSquare())
 			{
-				UE_LOG(LogTemp, Warning, TEXT("For-02 - true"));
+				//UE_LOG(LogTemp, Warning, TEXT("For-02 - true"));
 				isTrue = true;
 				break;
 			}
@@ -1168,4 +1160,20 @@ bool ACppChessBoard::IsUpcomingCheckSelf(ACppChessPiece* selectedChessPiece, ACp
 		selectedChessPiece->GetParentSquare()->SetChildPiece(selectedChessPiece);
 
 	return isTrue;
+}
+bool ACppChessBoard::IsCurrentHaveCheckFlagForOpponent(EPlayerColors colorType)
+{
+	ACppChessPiece* kingPiece = this->GetKingPiece(colorType);
+	TArray<ACppChessPiece*> opponentPices = this->GetAllPiecesByColor(colorType == EPlayerColors::White ? EPlayerColors::Black : EPlayerColors::White);
+
+	for (ACppChessPiece* cp : opponentPices)
+	{
+		TArray<ACppChessSquare*> getAllPosibleSquares = this->GetPosibleMovesChessSquareBoards(cp);
+		for (ACppChessSquare* cs : getAllPosibleSquares)
+		{
+			if (cs == kingPiece->GetParentSquare())
+				return true;
+		}
+	}
+	return false;
 }
