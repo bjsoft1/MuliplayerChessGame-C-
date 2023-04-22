@@ -58,8 +58,13 @@ void ACppChessPiece::E_ChessPieceClick(UPrimitiveComponent* TouchedComponent, FK
 				chessPiece->SetPieceMoveCount(false);
 				this->_parentSquareBoard->SetHighlightMaterial(this->_chessGameMode->GetMaterialByTypes(EMaterialTypes::MarkerPiece), true, true);
 				this->_parentSquareBoard = nullptr;
+				
+				this->_chessGameMode->SetPlayerCaptureCount(this->_chessGameMode->GetActivePlayerColor());
+				this->_chessGameMode->SetPlayerMoveCount(this->_chessGameMode->GetActivePlayerColor(), false);
 				this->_chessGameMode->SetPlayerCamera(this->_chessGameMode->GetActivePlayerColor()
 					== EPlayerColors::White ? EPlayerColors::Black : EPlayerColors::White);
+				this->_chessGameMode->SetPlayerIndicator();
+
 				if (chessPiece->GetPieceType() == EChessPieceTypes::Pawn)
 				{
 					if (chessPiece->GetPieceColor() == EPlayerColors::White && chessPiece->GetParentSquare()->GetIndexY() == 8)

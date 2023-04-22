@@ -127,7 +127,7 @@ void UCppWidgetMenu::SetShowMenuStyle(EGameMenuTypes menuType, bool isNeedShowMe
 	case EGameMenuTypes::StartMenu:
 	{
 		if (!this->IsInViewport())
-			this->AddToViewport();
+			this->AddToViewport(1);
 		this->_textTitle->SetText(FText::FromString("Main Menu"));
 		this->_textTitle->SetVisibility(ESlateVisibility::Visible);
 		this->_textButton1->SetText(FText::FromString("Play Game"));
@@ -140,7 +140,7 @@ void UCppWidgetMenu::SetShowMenuStyle(EGameMenuTypes menuType, bool isNeedShowMe
 	case EGameMenuTypes::PauseMenu:
 	{
 		if (!this->IsInViewport())
-			this->AddToViewport();
+			this->AddToViewport(1);
 		this->_textTitle->SetText(FText::FromString("Pause Game"));
 		this->_textTitle->SetVisibility(ESlateVisibility::Visible);
 		this->_textButton1->SetText(FText::FromString("Resume Game"));
@@ -153,7 +153,7 @@ void UCppWidgetMenu::SetShowMenuStyle(EGameMenuTypes menuType, bool isNeedShowMe
 	case EGameMenuTypes::PauseMenuAfterGiveUp:
 	{
 		if (!this->IsInViewport())
-			this->AddToViewport();
+			this->AddToViewport(1);
 		this->_textTitle->SetText(FText::FromString("Pause Game"));
 		this->_textTitle->SetVisibility(ESlateVisibility::Visible);
 		this->_textButton1->SetText(FText::FromString("Main Menu"));
@@ -166,7 +166,7 @@ void UCppWidgetMenu::SetShowMenuStyle(EGameMenuTypes menuType, bool isNeedShowMe
 	case EGameMenuTypes::LoseMenu:
 	{
 		if (!this->IsInViewport())
-			this->AddToViewport();
+			this->AddToViewport(1);
 		this->_textTitle->SetText(FText::FromString("You Lose Game"));
 		this->_textTitle->SetVisibility(ESlateVisibility::Visible);
 		this->_textButton1->SetText(FText::FromString("Main Menu"));
@@ -179,7 +179,7 @@ void UCppWidgetMenu::SetShowMenuStyle(EGameMenuTypes menuType, bool isNeedShowMe
 	case EGameMenuTypes::WinnerMenu:
 	{
 		if (!this->IsInViewport())
-			this->AddToViewport();
+			this->AddToViewport(1);
 		this->_textTitle->SetText(FText::FromString("You Win Game"));
 		this->_textTitle->SetVisibility(ESlateVisibility::Visible);
 		this->_textButton1->SetText(FText::FromString("Main Menu"));

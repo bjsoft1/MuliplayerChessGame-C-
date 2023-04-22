@@ -176,6 +176,14 @@ void ACppChessGameMode::SetPlayerCamera(EPlayerColors playerColor)
 
 	this->_chessPlayer->SetPlayerCamera(playerColor);
 }
+void ACppChessGameMode::SetWidgetInformationForPlayerClass(UCppWidgetInformation* widgetInformation)
+{
+	if (!this->_chessPlayer)
+		this->SetChessPlayerReference();
+
+	if (this->_chessPlayer)
+		this->_chessPlayer->SetWidgetInformation(widgetInformation);
+}
 ACppChessPiece* ACppChessGameMode::GetSelectedChessPiece()
 {
 	if (!this->_chessBoard)
@@ -242,21 +250,21 @@ int ACppChessGameMode::GetActivePlayerIndex()
 		
 	return this->_chessPlayer->GetActivePlayerIndex();
 }
-FPlayerInformation* ACppChessGameMode::GetActivePlayerInformation()
+FPlayerInformation ACppChessGameMode::GetActivePlayerInformation()
 {
 	if (!this->_chessPlayer)
 		this->SetChessPlayerReference();
 
 	return this->_chessPlayer->GetActivePlayerInformation();
 }
-FPlayerInformation* ACppChessGameMode::GetPlayerInformation(EPlayerColors colorType)
+FPlayerInformation ACppChessGameMode::GetPlayerInformation(EPlayerColors colorType)
 {
 	if (!this->_chessPlayer)
 		this->SetChessPlayerReference();
 
 	return this->_chessPlayer->GetPlayerInformation(colorType);
 }
-FPlayerInformation* ACppChessGameMode::GetPlayerInformation(int index)
+FPlayerInformation ACppChessGameMode::GetPlayerInformation(int index)
 {
 	if (!this->_chessPlayer)
 		this->SetChessPlayerReference();
@@ -354,4 +362,84 @@ UStaticMesh* ACppChessGameMode::GetMeshWithTypes(EChessPieceTypes chessPiece)
 		break;
 	}
 	}
+}
+
+void ACppChessGameMode::SetPlayerMoveCount(EPlayerColors colorType, bool isReset)
+{
+	if (!this->_chessPlayer)
+		this->SetChessPlayerReference();
+
+	if (this->_chessPlayer)
+		this->_chessPlayer->SetPlayerMoveCount(colorType, isReset);
+}
+int ACppChessGameMode::GetPlayerMoveCount(EPlayerColors colorType)
+{
+	if (!this->_chessPlayer)
+		this->SetChessPlayerReference();
+
+	if (this->_chessPlayer)
+		this->_chessPlayer->GetPlayerMoveCount(colorType);
+
+	return 0;
+}
+void ACppChessGameMode::SetPlayerCaptureCount(EPlayerColors colorType)
+{
+	if (!this->_chessPlayer)
+		this->SetChessPlayerReference();
+
+	if (this->_chessPlayer)
+		this->_chessPlayer->SetPlayerCaptureCount(colorType);
+}
+int ACppChessGameMode::GetPlayerCaptureCount(EPlayerColors colorType)
+{
+	if (!this->_chessPlayer)
+		this->SetChessPlayerReference();
+
+	if (this->_chessPlayer)
+		this->_chessPlayer->GetPlayerCaptureCount(colorType);
+
+	return 0;
+}
+void ACppChessGameMode::SetPlayerCheckFlag(EPlayerColors colorType, bool isCheckFlag)
+{
+	if (!this->_chessPlayer)
+		this->SetChessPlayerReference();
+
+	if (this->_chessPlayer)
+		this->_chessPlayer->SetPlayerCheckFlag(colorType, isCheckFlag);
+}
+void ACppChessGameMode::SetPlayerIndicator()
+{
+	if (!this->_chessPlayer)
+		this->SetChessPlayerReference();
+
+	if (this->_chessPlayer)
+		this->_chessPlayer->SetPlayerIndicator();
+}
+bool ACppChessGameMode::GetPlayerCheckFlag(EPlayerColors colorType)
+{
+	if (!this->_chessPlayer)
+		this->SetChessPlayerReference();
+
+	if (this->_chessPlayer)
+		this->_chessPlayer->GetPlayerCheckFlag(colorType);
+	return false;
+}
+ACppChessPiece* ACppChessGameMode::GetKingPiece(EPlayerColors colorType)
+{
+	if (!this->_chessBoard)
+		this->SetChessBoardReference();
+	if (this->_chessBoard)
+		return this->_chessBoard->GetKingPiece(colorType);
+
+	return nullptr;
+}
+bool ACppChessGameMode::IsUpcomingCheckSelf(ACppChessPiece* selectedChessPiece, ACppChessSquare* upcomingParentSquare)
+{
+	if (!this->_chessBoard)
+		this->SetChessBoardReference();
+	if (this->_chessBoard)
+		return this->_chessBoard->IsUpcomingCheckSelf(selectedChessPiece, upcomingParentSquare);
+
+	return false;
 }

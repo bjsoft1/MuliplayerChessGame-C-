@@ -47,14 +47,20 @@ void ACppChessSquare::E_SquareBoardClick(UPrimitiveComponent* TouchedComponent, 
 				ACppChessPiece* chessPiece = this->_chessGameMode->GetSelectedChessPiece();
 				chessPiece->GetParentSquare()->SetChildPiece(nullptr);
 				if (this->_childPiece)
+				{
 					this->_childPiece->Destroy();
+					this->_chessGameMode->SetPlayerCaptureCount(this->_chessGameMode->GetActivePlayerColor());
+				}
 				this->SetChildPiece(chessPiece);
 				chessPiece->SetParentSquare(this);
 				chessPiece->SetChessPieceLocation(this->GetActorLocation());
 				chessPiece->SetPieceMoveCount(false);
 				this->SetHighlightMaterial(this->_chessGameMode->GetMaterialByTypes(EMaterialTypes::MarkerPiece), true, true);
+				
+				this->_chessGameMode->SetPlayerMoveCount(this->_chessGameMode->GetActivePlayerColor(), false);
 				this->_chessGameMode->SetPlayerCamera(this->_chessGameMode->GetActivePlayerColor()
 					== EPlayerColors::White ? EPlayerColors::Black : EPlayerColors::White);
+				this->_chessGameMode->SetPlayerIndicator();
 
 				if (chessPiece->GetPieceType() == EChessPieceTypes::Pawn)
 				{

@@ -59,12 +59,16 @@ public:
 	bool GetIsValidSquarePiece(int xIndex, int yIndex);
 	ACppChessSquare* GetChessSquareBoardByIndex(int index);
 	ACppChessSquare* GetChessSquareBoardByAxis(int xIndex, int yIndex);
-	TArray<ACppChessSquare*> GetPosibleMovesChessSquareBoards(ACppChessPiece* chessPiece);
+	TArray<ACppChessSquare*> GetPosibleMovesChessSquareBoards(ACppChessPiece* selectedChessPiece);
 	void PlayGame();
 	void SetUnHighlightAllSquares();
 	void SetHighlightPosibleMoveLocation();
 	ACppChessSquare* FindParentSquareByLocation(FVector childLocation);
 	ACppChessPiece* FindChildPieceByLocation(FVector parentLocation);
+
+	TArray<ACppChessPiece*> GetAllPiecesByColor(EPlayerColors colorType);
+	ACppChessPiece* GetKingPiece(EPlayerColors colorType);
+	bool IsUpcomingCheckSelf(ACppChessPiece* selectedChessPiece, ACppChessSquare* upcomingParentSquare);
 
 public:
 	FORCEINLINE void SetGameModeReference(ACppChessGameMode* gameMode) { this->_chessGameMode = gameMode; }

@@ -5,6 +5,7 @@
 //-------------------------
 #include "CppWidgetMenu.h"
 #include "CppChessGameMode.h"
+#include "CppWidgetInformation.h"
 #include "EnumClass.h"
 
 ACppChessController::ACppChessController()
@@ -19,6 +20,7 @@ void ACppChessController::BeginPlay()
 
 	this->SetGameModeReference();
 	this->SetGameMenuReference();
+	this->SetGamePlayerInformationUIReference();
 }
 void ACppChessController::SetupInputComponent()
 {
@@ -68,6 +70,23 @@ void ACppChessController::SetGameMenuReference()
 		this->_chessGameMode->PlayGame(false);
 	}
 	this->_chessGameMode->PlayGame();
+}
+void ACppChessController::SetGamePlayerInformationUIReference()
+{
+	if (this->_widgetPlayerInformation)
+		return;
+	else if (!this->_widgetPlayerInformationClass)
+		return;
+
+	this->_widgetPlayerInformation = CreateWidget<UCppWidgetInformation>(this, this->_widgetPlayerInformationClass);
+	if (this->_widgetPlayerInformation)
+	{
+		this->_widgetPlayerInformation->AddToViewport(0);
+		if (!this->_chessGameMode)
+			this->SetGameModeReference();
+		if (this->_chessGameMode)
+			this->_chessGameMode->SetWidgetInformationForPlayerClass(_widgetPlayerInformation);
+	}
 }
 void ACppChessController::ShowGameMenu(EGameMenuTypes menuType, bool isNeedShowMenu, bool isPlayGame)
 {

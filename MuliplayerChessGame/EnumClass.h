@@ -42,27 +42,3 @@ enum class EMaterialTypes : uint8
 	MarkerHighlight UMETA(DisplayName = "MarkerHighlight"),
 	MarkerSelected UMETA(DisplayName = "MarkerSelected"),
 };
-USTRUCT(BlueprintType)
-struct FPlayerInformation
-{
-	GENERATED_BODY()
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Information")
-		FString playerName;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Information")
-		EPlayerColors playerType;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Information")
-		int playerIndex;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Information")
-		bool isCheck;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Information")
-		bool isLegalMoves;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Information")
-		bool iswatcher;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Information")
-		int moveCount;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Information")
-		int captures;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Information")
-		UTexture2D* profilePicture;
-};

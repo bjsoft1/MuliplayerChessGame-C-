@@ -13,6 +13,7 @@ class ACppChessSquare;
 class ACppChessPiece;
 class ACppChessController;
 class UCppGameInstance;
+class UCppWidgetInformation;
 class UStaticMesh;
 class UMaterialInstance;
 enum class EPlayerColors : uint8;
@@ -86,6 +87,7 @@ public:
 	void SetSelectedChessPiece(ACppChessPiece* chessPiece);
 	void SetSelectedChessSquare(ACppChessSquare* chessSquare);
 	void SetPlayerCamera(EPlayerColors playerColor);
+	void SetWidgetInformationForPlayerClass(UCppWidgetInformation* widgetInformation);
 	ACppChessPiece* GetSelectedChessPiece();
 	ACppChessSquare* GetSelectedChessSquare();
 	ACppChessSquare* GetChessSquareBoardByIndex(int index);
@@ -94,10 +96,20 @@ public:
 	ACppChessPiece* FindChildPieceByLocation(FVector parentLocation);
 	EPlayerColors GetActivePlayerColor();
 	int GetActivePlayerIndex();
-	FPlayerInformation* GetActivePlayerInformation();
-	FPlayerInformation* GetPlayerInformation(EPlayerColors colorType);
-	FPlayerInformation* GetPlayerInformation(int index);
+	FPlayerInformation GetActivePlayerInformation();
+	FPlayerInformation GetPlayerInformation(EPlayerColors colorType);
+	FPlayerInformation GetPlayerInformation(int index);
 	UMaterialInstance* GetMaterialByTypes(EMaterialTypes materialType);
 	UStaticMesh* GetMeshWithTypes(EChessPieceTypes chessPiece);
 	
+	void SetPlayerMoveCount(EPlayerColors colorType, bool isReset);
+	int GetPlayerMoveCount(EPlayerColors colorType);
+	void SetPlayerCaptureCount(EPlayerColors colorType);
+	int GetPlayerCaptureCount(EPlayerColors colorType);
+	void SetPlayerCheckFlag(EPlayerColors colorType, bool isCheckFlag);
+	void SetPlayerIndicator();
+	bool GetPlayerCheckFlag(EPlayerColors colorType);
+
+	ACppChessPiece* GetKingPiece(EPlayerColors colorType);
+	bool IsUpcomingCheckSelf(ACppChessPiece* selectedChessPiece, ACppChessSquare* upcomingParentSquare);
 };

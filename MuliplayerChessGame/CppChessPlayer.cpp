@@ -6,10 +6,11 @@
 #include "Camera/CameraComponent.h"
 //------------------------------
 #include "EnumClass.h"
+#include "CppWidgetInformation.h"
 
 ACppChessPlayer::ACppChessPlayer()
 {
- 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	this->_billBoardRoot = CreateDefaultSubobject<UBillboardComponent>(TEXT("BillBoardRoot"));
@@ -24,7 +25,7 @@ ACppChessPlayer::ACppChessPlayer()
 	this->_billBoardBlack->SetVisibility(false);
 	this->_billBoardBlack->SetRelativeLocation(FVector(0.0f, -500.0f, 700.0f));
 	this->_billBoardBlack->SetRelativeRotation(FRotator(0.0f, 300.0f, 90.0f));
-	
+
 	this->_billBoardWhite = CreateDefaultSubobject<UBillboardComponent>(TEXT("BillBoardWhite"));
 	this->_billBoardWhite->SetupAttachment(this->_billBoardRoot);
 	this->_billBoardWhite->SetVisibility(false);
@@ -42,27 +43,23 @@ ACppChessPlayer::ACppChessPlayer()
 	this->_rootCamere->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
 	this->_rootCamere->SetRelativeRotation(FRotator(0.0f, 0.0f, 0.0f));
 
-	FPlayerInformation chessPlayer1;
-	FPlayerInformation chessPlayer2;
-	chessPlayer1.captures = 0;
-	chessPlayer1.isCheck = false;
-	chessPlayer1.isLegalMoves = true;
-	chessPlayer1.moveCount = 0;
-	chessPlayer1.iswatcher = false;
-	chessPlayer1.playerIndex = 0;
-	chessPlayer1.playerName = "Bijay Adhikari";
-	chessPlayer1.playerType = EPlayerColors::White;
-	this->_chessPlayerInformations1 = &chessPlayer1;
+	this->_chessPlayerInformations1.captures = 0;
+	this->_chessPlayerInformations1.isCheck = false;
+	this->_chessPlayerInformations1.isLegalMoves = true;
+	this->_chessPlayerInformations1.moveCount = 0;
+	this->_chessPlayerInformations1.iswatcher = false;
+	this->_chessPlayerInformations1.playerIndex = 0;
+	this->_chessPlayerInformations1.playerName = "Bijay Adhikari";
+	this->_chessPlayerInformations1.playerType = EPlayerColors::White;
 
-	chessPlayer2.captures = 0;
-	chessPlayer2.isCheck = false;
-	chessPlayer2.isLegalMoves = true;
-	chessPlayer2.moveCount = 0;
-	chessPlayer2.iswatcher = false;
-	chessPlayer2.playerIndex = 1;
-	chessPlayer2.playerName = "Bijay Adhikari";
-	chessPlayer2.playerType = EPlayerColors::Black;
-	this->_chessPlayerInformations2 = &chessPlayer2;
+	this->_chessPlayerInformations2.captures = 0;
+	this->_chessPlayerInformations2.isCheck = false;
+	this->_chessPlayerInformations2.isLegalMoves = true;
+	this->_chessPlayerInformations2.moveCount = 0;
+	this->_chessPlayerInformations2.iswatcher = false;
+	this->_chessPlayerInformations2.playerIndex = 1;
+	this->_chessPlayerInformations2.playerName = "Amit Shrestha";
+	this->_chessPlayerInformations2.playerType = EPlayerColors::Black;
 }
 void ACppChessPlayer::BeginPlay()
 {
@@ -85,6 +82,33 @@ void ACppChessPlayer::BeginPlay()
 
 	this->_rootCamere->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
 	this->_rootCamere->SetRelativeRotation(FRotator(0.0f, 0.0f, 0.0f));
+
+	if (this->_widgetInformation)
+	{	
+		UE_LOG(LogTemp, Warning, TEXT("%s"), &this->_chessPlayerInformations1.playerName);
+
+		// Set Player Name
+		this->_widgetInformation->SetPlayerName(this->_chessPlayerInformations1.playerType, this->_chessPlayerInformations1.playerName);
+		this->_widgetInformation->SetPlayerName(this->_chessPlayerInformations2.playerType, this->_chessPlayerInformations2.playerName);
+
+		// Set Default Color
+		this->_widgetInformation->SetPlayerColor();
+
+		// Set Default Indicator
+		this->_widgetInformation->SetPlayerBorderIndicator(EPlayerColors::White);
+
+		// Set Default Capture Count
+		this->_widgetInformation->SetPlayerCapturesCount(EPlayerColors::White, 0);
+		this->_widgetInformation->SetPlayerCapturesCount(EPlayerColors::Black, 0);
+
+		// Set Default Check Status
+		this->_widgetInformation->SetPlayerCheckStatus(EPlayerColors::White, false);
+		this->_widgetInformation->SetPlayerCheckStatus(EPlayerColors::Black, false);
+
+		// Set Profile Picture
+		//this->_widgetInformation->SetPlayerImage(_chessPlayerInformations1.playerType, _chessPlayerInformations1.profilePicture);
+		//this->_widgetInformation->SetPlayerImage(_chessPlayerInformations2.playerType, _chessPlayerInformations2.profilePicture);
+	}
 }
 void ACppChessPlayer::Tick(float DeltaTime)
 {
@@ -143,31 +167,104 @@ void ACppChessPlayer::SetPlayerCamera(EPlayerColors colorType)
 	this->_activeColor = colorType;
 	this->_isMovingCamera = true;
 }
-FPlayerInformation* ACppChessPlayer::GetPlayerInformation(int index)
+FPlayerInformation ACppChessPlayer::GetPlayerInformation(int index)
 {
-	if (index == this->_chessPlayerInformations1->playerIndex)
+	if (index == this->_chessPlayerInformations1.playerIndex)
 		return this->_chessPlayerInformations1;
 		
 	return this->_chessPlayerInformations2;
 }
-FPlayerInformation* ACppChessPlayer::GetPlayerInformation(EPlayerColors colorType)
+FPlayerInformation ACppChessPlayer::GetPlayerInformation(EPlayerColors colorType)
 {
-	if (colorType == _chessPlayerInformations1->playerType)
+	if (colorType == _chessPlayerInformations1.playerType)
 		return this->_chessPlayerInformations1;
 
 	return this->_chessPlayerInformations2;
 }
 int ACppChessPlayer::GetActivePlayerIndex()
 {
-	if (this->_activeColor == this->_chessPlayerInformations1->playerType)
-		return this->_chessPlayerInformations1->playerIndex;
+	if (this->_activeColor == this->_chessPlayerInformations1.playerType)
+		return this->_chessPlayerInformations1.playerIndex;
 
-	return this->_chessPlayerInformations2->playerIndex;
+	return this->_chessPlayerInformations2.playerIndex;
 }
-FPlayerInformation* ACppChessPlayer::GetActivePlayerInformation()
+FPlayerInformation ACppChessPlayer::GetActivePlayerInformation()
 {
-	if (this->_activeColor == this->_chessPlayerInformations1->playerType)
+	if (this->_activeColor == this->_chessPlayerInformations1.playerType)
 		return this->_chessPlayerInformations1;
 
 	return this->_chessPlayerInformations2;
+}
+void ACppChessPlayer::SetPlayerMoveCount(EPlayerColors colorType, bool isReset)
+{
+	if (colorType == this->_chessPlayerInformations1.playerType)
+	{
+		if (isReset)
+			this->_chessPlayerInformations1.moveCount = 0;
+		else
+			this->_chessPlayerInformations1.moveCount++;
+		if (this->_widgetInformation)
+			this->_widgetInformation->SetPlayerMoveCount(colorType, this->_chessPlayerInformations1.moveCount);
+	}
+	else
+	{
+		if (isReset)
+			this->_chessPlayerInformations2.moveCount = 0;
+		else
+			this->_chessPlayerInformations2.moveCount++;
+
+		if (this->_widgetInformation)
+			this->_widgetInformation->SetPlayerMoveCount(colorType, this->_chessPlayerInformations2.moveCount);
+	}
+}
+int ACppChessPlayer::GetPlayerMoveCount(EPlayerColors colorType)
+{
+	if (colorType == this->_chessPlayerInformations1.playerType)
+		return this->_chessPlayerInformations1.moveCount;
+	else
+		return this->_chessPlayerInformations2.moveCount;
+}
+void ACppChessPlayer::SetPlayerCaptureCount(EPlayerColors colorType)
+{
+	if (colorType == this->_chessPlayerInformations1.playerType)
+	{
+		this->_chessPlayerInformations1.captures++;
+		if (this->_widgetInformation)
+			this->_widgetInformation->SetPlayerCapturesCount(colorType, this->_chessPlayerInformations1.captures);
+	}
+	else
+	{
+		this->_chessPlayerInformations2.captures++;
+		if (this->_widgetInformation)
+			this->_widgetInformation->SetPlayerCapturesCount(colorType, this->_chessPlayerInformations2.captures);
+	}
+}
+int ACppChessPlayer::GetPlayerCaptureCount(EPlayerColors colorType)
+{
+	if (colorType == this->_chessPlayerInformations1.playerType)
+		return this->_chessPlayerInformations1.captures;
+	else
+		return this->_chessPlayerInformations2.captures;
+}
+void ACppChessPlayer::SetPlayerCheckFlag(EPlayerColors colorType, bool isCheckFlag)
+{
+	if (colorType == this->_chessPlayerInformations1.playerType)
+		this->_chessPlayerInformations1.isCheck = isCheckFlag;
+	else
+		this->_chessPlayerInformations2.isCheck = isCheckFlag;
+	
+	if (this->_widgetInformation)
+		this->_widgetInformation->SetPlayerCheckStatus(colorType, isCheckFlag);
+}
+void ACppChessPlayer::SetPlayerIndicator()
+{
+	if (this->_widgetInformation)
+		this->_widgetInformation->SetPlayerBorderIndicator(this->_activeColor);
+}
+bool ACppChessPlayer::GetPlayerCheckFlag(EPlayerColors colorType)
+{
+	if (colorType == this->_chessPlayerInformations1.playerType)
+		return this->_chessPlayerInformations1.isCheck;
+	else
+		return this->_chessPlayerInformations2.isCheck;
 }

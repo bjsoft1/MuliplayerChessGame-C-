@@ -76,6 +76,9 @@ void ACppChessBoard::SetChessSquareBoardReference()
 TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_Pawn(ACppChessPiece* selectedChessPiece)
 {
 	TArray<ACppChessSquare*> squares;
+	if (!selectedChessPiece->GetParentSquare())
+		return squares;
+	//UE_LOG(LogTemp, Warning, TEXT("No Parent1"));
 	int x = selectedChessPiece->GetParentSquare()->GetIndexX();
 	int y = selectedChessPiece->GetParentSquare()->GetIndexY();
 	ACppChessSquare* square;
@@ -157,6 +160,9 @@ TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_Pawn(A
 TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_Rook(ACppChessPiece* selectedChessPiece)
 {
 	TArray<ACppChessSquare*> squares;
+	if (!selectedChessPiece->GetParentSquare())
+		return squares;
+	//UE_LOG(LogTemp, Warning, TEXT("No Parent1"));
 	ACppChessSquare* square;
 	int x = selectedChessPiece->GetParentSquare()->GetIndexX();
 	int y = selectedChessPiece->GetParentSquare()->GetIndexY();
@@ -260,6 +266,9 @@ TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_Rook(A
 TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_Knight(ACppChessPiece* selectedChessPiece)
 {
 	TArray<ACppChessSquare*> squares;
+	if (!selectedChessPiece->GetParentSquare())
+		return squares;
+	//UE_LOG(LogTemp, Warning, TEXT("No Parent1"));
 	ACppChessSquare* square;
 	int x = selectedChessPiece->GetParentSquare()->GetIndexX();
 	int y = selectedChessPiece->GetParentSquare()->GetIndexY();
@@ -374,6 +383,9 @@ TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_Knight
 TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_Bishop(ACppChessPiece* selectedChessPiece)
 {
 	TArray<ACppChessSquare*> squares;
+	if (!selectedChessPiece->GetParentSquare())
+		return squares;
+	//UE_LOG(LogTemp, Warning, TEXT("No Parent1"));
 	ACppChessSquare* square;
 	int x = selectedChessPiece->GetParentSquare()->GetIndexX();
 	int y = selectedChessPiece->GetParentSquare()->GetIndexY();
@@ -479,7 +491,10 @@ TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_Bishop
 TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_Queen(ACppChessPiece* selectedChessPiece)
 {
 	TArray<ACppChessSquare*> squares;
-	
+	if (!selectedChessPiece->GetParentSquare())
+		return squares;
+	//UE_LOG(LogTemp, Warning, TEXT("No Parent1"));
+
 	// Rook (Hatti) Moves
 	TArray<ACppChessSquare*> tempSquares = this->GetChessPiecePosibleMovesSquares_Rook(selectedChessPiece);
 	for (ACppChessSquare* cs : tempSquares)
@@ -500,6 +515,10 @@ TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_Queen(
 TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_King(ACppChessPiece* selectedChessPiece)
 {
 	TArray<ACppChessSquare*> squares;
+	if (!selectedChessPiece->GetParentSquare())
+		return squares;
+	//UE_LOG(LogTemp, Warning, TEXT("No Parent1"));
+	
 	ACppChessSquare* square;
 	int x = selectedChessPiece->GetParentSquare()->GetIndexX();
 	int y = selectedChessPiece->GetParentSquare()->GetIndexY();
@@ -510,10 +529,16 @@ TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_King(A
 	{
 		square = this->GetChessSquareBoardByAxis(x, y + 1);
 		if (square)
+		{
 			if (!square->GetChildPiece())
+			{
 				squares.Add(square);
+			}
 			else if (!this->IsFriendChessPiece(selectedChessPiece, square->GetChildPiece()))
+			{
 				squares.Add(square);
+			}
+		}
 	}
 	//------------------------------------
 
@@ -523,10 +548,12 @@ TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_King(A
 	{
 		square = this->GetChessSquareBoardByAxis(x, y - 1);
 		if (square)
+		{
 			if (!square->GetChildPiece())
 				squares.Add(square);
 			else if (!this->IsFriendChessPiece(selectedChessPiece, square->GetChildPiece()))
 				squares.Add(square);
+		}
 	}
 	//------------------------------------
 
@@ -536,10 +563,12 @@ TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_King(A
 	{
 		square = this->GetChessSquareBoardByAxis(x - 1, y + 1);
 		if (square)
+		{
 			if (!square->GetChildPiece())
 				squares.Add(square);
 			else if (!this->IsFriendChessPiece(selectedChessPiece, square->GetChildPiece()))
 				squares.Add(square);
+		}
 	}
 	//------------------------------------
 
@@ -549,10 +578,12 @@ TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_King(A
 	{
 		square = this->GetChessSquareBoardByAxis(x + 1, y + 1);
 		if (square)
+		{
 			if (!square->GetChildPiece())
 				squares.Add(square);
 			else if (!this->IsFriendChessPiece(selectedChessPiece, square->GetChildPiece()))
 				squares.Add(square);
+		}
 	}
 	//------------------------------------
 
@@ -562,10 +593,12 @@ TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_King(A
 	{
 		square = this->GetChessSquareBoardByAxis(x + 1, y - 1);
 		if (square)
+		{
 			if (!square->GetChildPiece())
 				squares.Add(square);
 			else if (!this->IsFriendChessPiece(selectedChessPiece, square->GetChildPiece()))
 				squares.Add(square);
+		}
 	}
 	//------------------------------------
 
@@ -575,10 +608,12 @@ TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_King(A
 	{
 		square = this->GetChessSquareBoardByAxis(x - 1, y - 1);
 		if (square)
+		{
 			if (!square->GetChildPiece())
 				squares.Add(square);
 			else if (!this->IsFriendChessPiece(selectedChessPiece, square->GetChildPiece()))
 				squares.Add(square);
+		}
 	}
 	//------------------------------------
 
@@ -588,10 +623,12 @@ TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_King(A
 	{
 		square = this->GetChessSquareBoardByAxis(x + 1, y);
 		if (square)
+		{
 			if (!square->GetChildPiece())
 				squares.Add(square);
 			else if (!this->IsFriendChessPiece(selectedChessPiece, square->GetChildPiece()))
 				squares.Add(square);
+		}
 	}
 	//------------------------------------
 
@@ -601,10 +638,12 @@ TArray<ACppChessSquare*> ACppChessBoard::GetChessPiecePosibleMovesSquares_King(A
 	{
 		square = this->GetChessSquareBoardByAxis(x - 1, y);
 		if (square)
+		{
 			if (!square->GetChildPiece())
 				squares.Add(square);
 			else if (!this->IsFriendChessPiece(selectedChessPiece, square->GetChildPiece()))
 				squares.Add(square);
+		}
 	}
 	//------------------------------------
 
@@ -658,28 +697,31 @@ ACppChessSquare* ACppChessBoard::GetChessSquareBoardByAxis(int xIndex, int yInde
 		}
 	return nullptr;
 }
-TArray<ACppChessSquare*> ACppChessBoard::GetPosibleMovesChessSquareBoards(ACppChessPiece* chessPiece)
+TArray<ACppChessSquare*> ACppChessBoard::GetPosibleMovesChessSquareBoards(ACppChessPiece* selectedChessPiece)
 {
+	if (!selectedChessPiece)
+		selectedChessPiece = this->_selectedChessPiece;
+
 	TArray<ACppChessSquare*> squares;
-	switch (this->_selectedChessPiece->GetPieceType())
+	switch (selectedChessPiece->GetPieceType())
 	{
 	case EChessPieceTypes::King:
-		squares = this->GetChessPiecePosibleMovesSquares_King(this->_selectedChessPiece);
+		squares = this->GetChessPiecePosibleMovesSquares_King(selectedChessPiece);
 		break;
 	case EChessPieceTypes::Queen:
-		squares = this->GetChessPiecePosibleMovesSquares_Queen(this->_selectedChessPiece);
+		squares = this->GetChessPiecePosibleMovesSquares_Queen(selectedChessPiece);
 		break;
 	case EChessPieceTypes::Bishop:
-		squares = this->GetChessPiecePosibleMovesSquares_Bishop(this->_selectedChessPiece);
+		squares = this->GetChessPiecePosibleMovesSquares_Bishop(selectedChessPiece);
 		break;
 	case EChessPieceTypes::Knight:
-		squares = this->GetChessPiecePosibleMovesSquares_Knight(this->_selectedChessPiece);
+		squares = this->GetChessPiecePosibleMovesSquares_Knight(selectedChessPiece);
 		break;
 	case EChessPieceTypes::Rook:
-		squares = this->GetChessPiecePosibleMovesSquares_Rook(this->_selectedChessPiece);
+		squares = this->GetChessPiecePosibleMovesSquares_Rook(selectedChessPiece);
 		break;
 	case EChessPieceTypes::Pawn:
-		squares = this->GetChessPiecePosibleMovesSquares_Pawn(this->_selectedChessPiece);
+		squares = this->GetChessPiecePosibleMovesSquares_Pawn(selectedChessPiece);
 		break;
 	default:
 		break;
@@ -1009,8 +1051,18 @@ void ACppChessBoard::SetHighlightPosibleMoveLocation()
 			{
 				if (cs)
 				{
-					cs->SetHighlightMaterial(this->_chessGameMode->GetMaterialByTypes(EMaterialTypes::MarkerHighlight), true, false);
-					cs->SetIsPosibleMoveSquare(true);
+					if (!this->IsUpcomingCheckSelf(this->_selectedChessPiece, cs))
+					{
+						//UE_LOG(LogTemp, Warning, TEXT("No CHeck"));
+						cs->SetHighlightMaterial(this->_chessGameMode->GetMaterialByTypes(EMaterialTypes::MarkerHighlight), true, false);
+						cs->SetIsPosibleMoveSquare(true);
+					}
+					//else
+					//{
+					//	UE_LOG(LogTemp, Warning, TEXT("Yes CHeck"));
+					//	cs->SetHighlightMaterial(this->_chessGameMode->GetMaterialByTypes(EMaterialTypes::MarkerPiece), true, false);
+					//	cs->SetIsPosibleMoveSquare(true);
+					//}
 				}
 			}
 			this->_selectedChessPiece->GetParentSquare()->SetHighlightMaterial(this->_chessGameMode->GetMaterialByTypes(EMaterialTypes::MarkerPiece), true, false);
@@ -1037,4 +1089,83 @@ ACppChessPiece* ACppChessBoard::FindChildPieceByLocation(FVector parentLocation)
 			return cp;
 	}
 	return nullptr;
+}
+TArray<ACppChessPiece*> ACppChessBoard::GetAllPiecesByColor(EPlayerColors colorType)
+{
+	TArray<ACppChessPiece*> allPieces;
+	for (ACppChessPiece* cp : this->_chessPieces)
+	{
+		if (cp->GetPieceColor() == colorType)
+			allPieces.Add(cp);
+	}
+
+	return allPieces;
+}
+ACppChessPiece* ACppChessBoard::GetKingPiece(EPlayerColors colorType)
+{
+	for (ACppChessPiece* cp : this->_chessPieces)
+	{
+		if (cp->GetPieceColor() == colorType && cp->GetPieceType() == EChessPieceTypes::King)
+			return cp;
+	}
+	return nullptr;
+}
+bool ACppChessBoard::IsUpcomingCheckSelf(ACppChessPiece* selectedChessPiece, ACppChessSquare* upcomingParentSquare)
+{
+	if (!selectedChessPiece || !upcomingParentSquare)
+		return false;
+
+	ACppChessPiece* s_c_p = selectedChessPiece; // Selected Chess Piece
+	ACppChessSquare* s_c_p_p = selectedChessPiece->GetParentSquare(); // Selected Chess Piece Parent
+	ACppChessSquare* u_p_s = upcomingParentSquare; // Upcoming Parent Square
+	ACppChessPiece* u_p_s_c = upcomingParentSquare->GetChildPiece(); // Upcoming Parent Square Child
+
+	if (upcomingParentSquare->GetChildPiece())
+	{
+		upcomingParentSquare->GetChildPiece()->SetParentSquare(nullptr);
+		upcomingParentSquare->SetChildPiece(nullptr);
+	}
+	
+	if (selectedChessPiece->GetParentSquare())
+		selectedChessPiece->GetParentSquare()->SetChildPiece(nullptr);
+	
+	selectedChessPiece->SetParentSquare(upcomingParentSquare);
+	upcomingParentSquare->SetChildPiece(selectedChessPiece);
+
+	ACppChessPiece* kingPiece = this->GetKingPiece(selectedChessPiece->GetPieceColor());
+	
+	bool isTrue = false; 
+	TArray<ACppChessPiece*> opponentPices = this->GetAllPiecesByColor(selectedChessPiece->GetPieceColor() == EPlayerColors::White ? EPlayerColors::Black : EPlayerColors::White);
+
+	for (ACppChessPiece* cp : opponentPices)
+	{		
+		TArray<ACppChessSquare*> getAllPosibleSquares = this->GetPosibleMovesChessSquareBoards(cp);
+		if (cp->GetPieceType() == EChessPieceTypes::Queen)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("%d"), cp->GetPieceColor());
+			//UE_LOG(LogTemp, Warning, TEXT("Queen PosibleMovie   %d"), getAllPosibleSquares.Num());
+			//UE_LOG(LogTemp, Warning, TEXT("This is Queen  %d, %d"), cp->GetParentSquare()->GetIndexX(), cp->GetParentSquare()->GetIndexY());
+		}
+		for (ACppChessSquare* cs : getAllPosibleSquares)
+		{
+			
+
+			//UE_LOG(LogTemp, Warning, TEXT("For-02"));
+			if (cs == kingPiece->GetParentSquare())
+			{
+				UE_LOG(LogTemp, Warning, TEXT("For-02 - true"));
+				isTrue = true;
+				break;
+			}
+		}
+	}
+	//---------------------------
+	upcomingParentSquare->SetChildPiece(u_p_s_c);
+	if (upcomingParentSquare->GetChildPiece())
+		upcomingParentSquare->GetChildPiece()->SetParentSquare(upcomingParentSquare);
+	selectedChessPiece->SetParentSquare(s_c_p_p);
+	if(selectedChessPiece->GetParentSquare())
+		selectedChessPiece->GetParentSquare()->SetChildPiece(selectedChessPiece);
+
+	return isTrue;
 }
