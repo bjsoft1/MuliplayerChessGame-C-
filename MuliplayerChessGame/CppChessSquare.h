@@ -42,7 +42,7 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ChessBoard", meta = (AllowPrivateAccess = "true"))
 		bool _isPosibleMoveSquare = false;
 
-private:
+public:
 	UFUNCTION()
 	void E_SquareBoardClick(UPrimitiveComponent* TouchedComponent, FKey ButtonPressed);
 
