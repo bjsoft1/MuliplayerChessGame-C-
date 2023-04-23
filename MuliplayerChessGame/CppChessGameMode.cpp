@@ -443,3 +443,13 @@ bool ACppChessGameMode::IsUpcomingCheckSelf(ACppChessPiece* selectedChessPiece, 
 
 	return false;
 }
+
+bool ACppChessGameMode::IsCurrentHaveCheckFlagForOpponent(EPlayerColors colorType)
+{
+	if (!this->_chessBoard)
+		this->SetChessBoardReference();
+	if (this->_chessBoard)
+		return this->_chessBoard->IsCurrentHaveCheckFlagForOpponent(colorType);
+
+	return false;
+}

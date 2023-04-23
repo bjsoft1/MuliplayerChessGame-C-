@@ -69,6 +69,7 @@ public:
 	TArray<ACppChessPiece*> GetAllPiecesByColor(EPlayerColors colorType);
 	ACppChessPiece* GetKingPiece(EPlayerColors colorType);
 	bool IsUpcomingCheckSelf(ACppChessPiece* selectedChessPiece, ACppChessSquare* upcomingParentSquare);
+	bool IsCurrentHaveCheckFlagForOpponent(EPlayerColors colorType);
 
 public:
 	FORCEINLINE void SetGameModeReference(ACppChessGameMode* gameMode) { this->_chessGameMode = gameMode; }

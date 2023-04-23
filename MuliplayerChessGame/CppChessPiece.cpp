@@ -45,6 +45,7 @@ void ACppChessPiece::E_ChessPieceClick(UPrimitiveComponent* TouchedComponent, FK
 	}
 	else
 	{
+		//this->_parentSquareBoard->E_SquareBoardClick(TouchedComponent, ButtonPressed);
 		TArray<ACppChessSquare*> squares = _chessGameMode->GetPosibleMovesChessSquareBoards(this->_chessGameMode->GetSelectedChessPiece());
 		for (ACppChessSquare* cs : squares)
 		{
@@ -78,6 +79,14 @@ void ACppChessPiece::E_ChessPieceClick(UPrimitiveComponent* TouchedComponent, FK
 						chessPiece->SetPieceMesh(this->_chessGameMode->GetMeshWithTypes(EChessPieceTypes::Queen));
 					}
 				}
+
+				this->_chessGameMode->SetPlayerCheckFlag(EPlayerColors::Black, this->_chessGameMode->
+					IsCurrentHaveCheckFlagForOpponent(EPlayerColors::White));
+
+				this->_chessGameMode->SetPlayerCheckFlag(EPlayerColors::White, this->_chessGameMode->
+					IsCurrentHaveCheckFlagForOpponent(EPlayerColors::Black));
+
+
 				this->Destroy();
 			}
 		}

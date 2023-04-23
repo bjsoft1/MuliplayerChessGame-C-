@@ -34,6 +34,7 @@ void ACppChessSquare::BeginPlay()
 }
 void ACppChessSquare::E_SquareBoardClick(UPrimitiveComponent* TouchedComponent, FKey ButtonPressed)
 {
+	//UE_LOG(LogTemp, Warning, TEXT("%d"), this->_chessGameMode->GetSquareBoardIndex(this->_xIndex, this->_yIndex));
 	if (!this->_chessGameMode)
 		this->SetGameModeReference();
 	
@@ -53,13 +54,20 @@ void ACppChessSquare::E_SquareBoardClick(UPrimitiveComponent* TouchedComponent, 
 				}
 				this->SetChildPiece(chessPiece);
 				chessPiece->SetParentSquare(this);
+				this->SetHighlightMaterial(this->_chessGameMode->GetMaterialByTypes(EMaterialTypes::MarkerPiece), true, true);
+				//--------------------------------
+				this->_chessGameMode->SetPlayerCheckFlag(EPlayerColors::Black,this->_chessGameMode->
+					IsCurrentHaveCheckFlagForOpponent(EPlayerColors::White));
+				this->_chessGameMode->SetPlayerCheckFlag(EPlayerColors::White, this->_chessGameMode->
+					IsCurrentHaveCheckFlagForOpponent(EPlayerColors::Black));
+				//--------------------------------
 				chessPiece->SetChessPieceLocation(this->GetActorLocation());
 				chessPiece->SetPieceMoveCount(false);
-				this->SetHighlightMaterial(this->_chessGameMode->GetMaterialByTypes(EMaterialTypes::MarkerPiece), true, true);
-				
+	
 				this->_chessGameMode->SetPlayerMoveCount(this->_chessGameMode->GetActivePlayerColor(), false);
 				this->_chessGameMode->SetPlayerCamera(this->_chessGameMode->GetActivePlayerColor()
 					== EPlayerColors::White ? EPlayerColors::Black : EPlayerColors::White);
+				
 				this->_chessGameMode->SetPlayerIndicator();
 
 				if (chessPiece->GetPieceType() == EChessPieceTypes::Pawn)

@@ -112,4 +112,5 @@ public:
 
 	ACppChessPiece* GetKingPiece(EPlayerColors colorType);
 	bool IsUpcomingCheckSelf(ACppChessPiece* selectedChessPiece, ACppChessSquare* upcomingParentSquare);
+	bool IsCurrentHaveCheckFlagForOpponent(EPlayerColors colorType);
 };
