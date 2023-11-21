@@ -41,7 +41,6 @@ public:
 };
 
 
-
 UCLASS()
 class MULIPLAYERCHESSGAME_API ACppChessPlayer : public APawn
 {

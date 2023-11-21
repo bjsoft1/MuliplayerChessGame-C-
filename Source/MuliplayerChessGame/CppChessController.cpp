@@ -87,7 +87,7 @@ void ACppChessController::SetGamePlayerInformationUIReference()
 		if (this->_chessGameMode)
 			this->_chessGameMode->SetWidgetInformationForPlayerClass(_widgetPlayerInformation);
 	}
-}
+} 
 void ACppChessController::ShowGameMenu(EGameMenuTypes menuType, bool isNeedShowMenu, bool isPlayGame)
 {
 	if (!this->_widgetMenu)
@@ -95,4 +95,7 @@ void ACppChessController::ShowGameMenu(EGameMenuTypes menuType, bool isNeedShowM
 
 	if (this->_widgetMenu)
 		this->_widgetMenu->SetShowMenuStyle(menuType, isNeedShowMenu, isPlayGame);
+
+	if (GEngine)
+		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, FString("00001"));
 }
